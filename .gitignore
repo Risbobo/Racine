@@ -1,0 +1,122 @@
+# Izar config
+
+Assets/IzarConfig.txt
+
+#-------------------
+#-- Unity generated
+#-------------------
+[Tt]emp/
+[Oo]bj/
+[Bb]uild
+[Ll]ibrary/
+[Ll]ogs/
+sysinfo.txt
+*.stackdump
+UserSettings/
+
+# Lightmaps
+*.exr
+*.exr.meta
+LightmapSnapshot.asset
+LightmapSnapshot.asset.meta
+LightingData.asset
+LightingData.asset.meta
+
+#-----------------------------------------
+#-- Visual Studio - MonoDevelop generated files
+#-----------------------------------------
+[Ee]xported[Oo]bj/
+.vs/
+/*.pidb
+/*.sln*
+/*.suo
+/*.user
+/*.userprefs
+/*.csproj
+/*.csproj.DotSettings
+/*.unityproj
+/*.booproj
+/*.vsconfig
+
+#-----------------------------------------
+#-- Visual Studio Code generated folders
+#-----------------------------------------
+.vscode*
+
+#-----------------------------------------
+#-- Rider plugin and generated folders
+#-----------------------------------------
+.idea*
+Assets/Plugins/JetBrains*
+
+#----------------
+#-- OS generated
+#----------------
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+
+#-----------------------
+#-- Sphinx Doc generated
+#-----------------------
+Doc/_build/
+__pycache__
+
+#-----------------------------------------
+#-- Games lighting data folders
+#-----------------------------------------
+Assets/Games/Airplane/Airplane.meta
+Assets/Games/Carnival/CarnivalGame.meta
+Assets/Games/CarRacer/CarRacer.meta
+Assets/Games/CityJourney/CityJourney.meta
+Assets/Games/Climbing/Climbing.meta
+Assets/Games/CrossTheRoad/CrossTheRoad.meta
+Assets/Games/FlyingCar/FlyingCar.meta
+Assets/Games/FlyingCarpet/FlyingCarpet.meta
+Assets/Games/GardenRage/GardenRage.meta
+Assets/Games/JapaneseGarden/JapaneseGarden.meta
+Assets/Games/LineRoller/LineRoller.meta
+Assets/Games/Mind4/MemoBy4.meta
+Assets/Games/MineCart/CartGame.meta
+Assets/Games/Octopulse/Octopulse.meta
+Assets/Games/Sample/Sample.meta
+Assets/Games/SkiLiner/SkiLiner.meta
+Assets/Games/SpaceBurger/SpaceBurger.meta
+Assets/Games/Template/Template.meta
+Assets/Games/TowerBuilder/Tower Builder.meta
+Assets/Games/WitcherDefense/WitcherDefense.meta
+
+#-----------------------------------------
+#-- Binaries
+#-----------------------------------------
+Binaries/
+
+#-----------------------------------------
+#-- Scripts (results, temp, etc.)
+#-----------------------------------------
+Scripts/TestResults/
+
+#-----------------------------------------
+#-- Plugins
+#-----------------------------------------
+Assets/Plugins/Untracked
+Assets/Plugins/Untracked.meta
+
+#-----------------------------------------
+#-- Code coverage
+#-----------------------------------------
+CodeCoverage/
+ProjectSettings/Packages/com.unity.testtools.codecoverage/
+
+#-----------------------------------------
+#-- Tests
+#-----------------------------------------
+Assets/InitTestScene*
+
+#-----------------------------------------
+#-- Default recordings folder
+#-----------------------------------------
+/[Rr]ecordings
