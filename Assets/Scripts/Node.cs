@@ -23,6 +23,7 @@ namespace Racines
         private float _width;
         private float _length;
 
+
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
