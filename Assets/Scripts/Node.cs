@@ -20,6 +20,9 @@ namespace Racines
         {
             _width = RootManager.Instance.initialWidth;
             _rootParams = GetComponent<RootParams>();
+            // Disable calyptra so that it only appears on leaves
+            _rootParams.Calyptra.gameObject.SetActive(false);
+            
             StartCoroutine(Sprout());
             _rootParams.Calyptra.Clicked += OnCalyptraClicked;
         }
@@ -41,12 +44,15 @@ namespace Racines
         /// <returns></returns>
         private IEnumerator Sprout()
         {
-            _rootParams.Calyptra.gameObject.SetActive(false);
-            for (float alpha = 0; alpha <= 1; alpha += 1f / RootManager.Instance.numberOfStepsToSprout)
+            float elapsedTime = 0f;
+            Vector3 initialScale = new Vector3(1f, 0f, 1f);
+            Vector3 finalScale = Vector3.one;
+            float timeToGrow = RootManager.Instance.timeToGrowSprout;
+            while (elapsedTime < timeToGrow)
             {
-                transform.localScale = new Vector3(1, alpha, 1);
-                yield return new WaitForSeconds(RootManager.Instance.timeToGrowSprout
-                                                / RootManager.Instance.numberOfStepsToSprout);
+                transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / timeToGrow);
+                elapsedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
             }
 
             Grow();

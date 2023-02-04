@@ -20,8 +20,10 @@ namespace Racines
         /// <returns></returns>
         public float splitProbability;
 
+        /// <summary>
+        /// The time is takes to grow one Node
+        /// </summary>
         public float timeToGrowSprout;
-        public int numberOfStepsToSprout;
 
         private static RootManager _instance;
 
