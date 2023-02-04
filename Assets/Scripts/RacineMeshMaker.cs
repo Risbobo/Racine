@@ -1,43 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Racines;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 public class RacineMeshMaker : MonoBehaviour
-{  
-    public Vector3[] NodePoints = { new Vector3(0f, 0f, 0f),
-                            new Vector3(-1f, -1f, 0f),
-                            new Vector3(1.4f, -2f, 0f)
-                            };
+{
+    public Vector3[] NodePoints => GetNodePoints();
 
-    public Vector3 Parent = new Vector3(0.5f, 1f, 0f);
-
-    public float[] NodeWidth = { 0.4f, 0.2f, 0.1f };
+    public Vector3 Parent => _node.GetRootPosition();
+    
+    public float[] NodeWidth => GetNodeWidths();
 
     public int HalfCirclePoints = 10;
+
+    private Node _node;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
-        MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        Mesh mesh = new Mesh();
-
-        // create an ensemble of root nodes and create the branches with width
-        UpdateMesh(NodePoints, NodeWidth, Parent);
-        
+        _node = GetComponentInParent<Node>();
+        UpdateMesh();
+    }
+    
+    private Vector3[] GetNodePoints()
+    {
+        var nodePoints = new List<Vector3>();
+        nodePoints.Add(_node.GetTipPosition());
+        nodePoints.AddRange(_node.Children.Select(child => child.GetTipPosition()));
+        return nodePoints.ToArray();
+    }
+    
+    private float[] GetNodeWidths()
+    {
+        var widths = new List<float>();
+        widths.Add(_node.Width);
+        widths.AddRange(_node.Children.Select(child => child.Width));
+        return widths.ToArray();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateMesh(NodePoints, NodeWidth, Parent);
+        UpdateMesh();
     }
 
-    public void UpdateMesh(Vector3[] NodePoints, float[] NodeWidth, Vector3 ParentNode)
+    private void UpdateMesh()
     {
         int numNodes = NodePoints.Length;
         int numWidth = NodeWidth.Length;
@@ -59,25 +70,25 @@ public class RacineMeshMaker : MonoBehaviour
         }
     }
 
-    private void UpdateMeshFork(Vector3[] NodePoints, float[] NodeWidth, Vector3 ParentNode)
+    private void UpdateMeshFork(Vector3[] nodePoints, float[] nodeWidth, Vector3 parentNode)
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
 
         Vector3[] Vertices = new Vector3[7];
         Vector2[] UV = new Vector2[7];
 
-        Vector3[] Leg = {NodePoints[1] - NodePoints[0],
-                         NodePoints[2] - NodePoints[0] };
+        Vector3[] Leg = {nodePoints[1] - nodePoints[0],
+                         nodePoints[2] - nodePoints[0] };
 
         //Vector3[] vertices = mesh.vertices;
 
         // pour le 0, aller chercher la position du parent
         // pour 1 et 2, calculer la position
-        for (int i = 0; i < NodePoints.Length; i++)
+        for (int i = 0; i < nodePoints.Length; i++)
         {
 
             //Orient the root node towards the parent node
-            Vector3 perpend = Vector3.Cross(NodePoints[0]-ParentNode, Vector3.forward).normalized;
+            Vector3 perpend = Vector3.Cross(nodePoints[0]-parentNode, Vector3.forward).normalized;
 
             //orient the leg towards the root node
             if (i > 0)
@@ -85,8 +96,8 @@ public class RacineMeshMaker : MonoBehaviour
                 perpend = Vector3.Cross(Leg[i - 1], Vector3.forward).normalized;
             }
 
-            Vertices[2 * i] = NodePoints[i] + perpend * NodeWidth[i];
-            Vertices[2 * i + 1] = NodePoints[i] - perpend * NodeWidth[i];
+            Vertices[2 * i] = nodePoints[i] + perpend * nodeWidth[i];
+            Vertices[2 * i + 1] = nodePoints[i] - perpend * nodeWidth[i];
         }
         //calcul du bas du pantalon
         float x0 = Vertices[0].x;

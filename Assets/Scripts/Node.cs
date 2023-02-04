@@ -8,8 +8,8 @@ namespace Racines
 {
     public class Node : MonoBehaviour
     {
-        public Node Parent => _parent;
         public List<Node> Children { get; } = new List<Node>();
+        public float Width => _width;
         
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
@@ -18,8 +18,7 @@ namespace Racines
         
         private Calyptra _calyptra;
         private Node _parent;
-        
-        [SerializeField] private float _width;
+        private float _width;
 
         protected void Start()
         {
@@ -34,7 +33,12 @@ namespace Racines
             Grow(mustHaveChildren: true);
         }
 
-        private Vector3 GetTipPosition()
+        public Vector3 GetRootPosition()
+        {
+            return transform.position;
+        }
+
+        public Vector3 GetTipPosition()
         {
             return transform.position + transform.rotation * new Vector3(0f, transform.localScale.y, 0f);
         }
