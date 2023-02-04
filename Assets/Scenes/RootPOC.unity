@@ -208,7 +208,10 @@ MonoBehaviour:
   _maxDepth: 4
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
   _calyptraPrefab: {fileID: 6319498608059453381, guid: bad34ee35f888bd4f8b7b61b36b974e2, type: 3}
+  _parent: {fileID: 0}
   _width: 0
+  _length: 0
+  tip: {x: 0, y: 0, z: 0}
 --- !u!1 &837376442
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,8 +375,9 @@ MonoBehaviour:
   minFanAngle: 10
   maxFanAngle: 50
   depthIncrement: 3
-  initialWidth: 2
+  initialWidth: 0.05
   killProbability: 0.2
   splitProbability: 0.7
   timeToGrowSprout: 1
+  meanSproutLength: 1
   sproutLengthSigma: 0.4
