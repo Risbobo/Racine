@@ -13,6 +13,8 @@ namespace Racines
 
         public event Action Clicked = delegate { };
 
+        public Arrow _arrow;
+
         protected void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -28,7 +30,7 @@ namespace Racines
                 _spriteRenderer.color = color;
                 return;
             }
-            
+
             StartCoroutine(AlphaCoroutine(alpha, animationTime));
         }
 
@@ -60,6 +62,32 @@ namespace Racines
 
         private void OnMouseDown()
         {
+            GameObject arrowObject = GameObject.FindWithTag("ArrowManager");
+
+            if (arrowObject != null)
+            {
+                _arrow = arrowObject.GetComponent<Arrow>();
+                _arrow.ActivateArrow(transform.position);
+            }
+        }
+
+        private void OnMouseDrag()
+        {
+            if (_arrow != null)
+            {
+                _arrow.MutateArrow();
+            }
+        }
+
+        private void OnMouseUp()
+        {
+
+            if (_arrow != null)
+            {
+                _arrow.DeactivateArrow();
+                _arrow = null;
+            }
+
             Clicked();
         }
     }

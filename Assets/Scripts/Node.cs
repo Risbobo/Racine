@@ -41,6 +41,8 @@ namespace Racines
         private void OnCalyptraClicked()
         {
             DestroyCalyptra();
+
+
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
             Grow(mustHaveChildren: true);
         }
@@ -78,6 +80,7 @@ namespace Racines
         private void Grow(bool mustHaveChildren = false)
         {
             bool hasNotBeenKilled = Random.Range(0f, 1f) > RootManager.Instance.killProbability;
+
             if (_depth < _maxDepth && (hasNotBeenKilled || mustHaveChildren))
             {
                 CreateChildren();
