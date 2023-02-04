@@ -18,9 +18,11 @@ namespace Racines
         
         private Calyptra _calyptra;
         public Node _parent;
-        private float _width;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
         
+        private float _width;
+        private float _length;
+
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
@@ -49,9 +51,14 @@ namespace Racines
 
         public Vector3 GetTipPosition()
         {
-            return transform.position + transform.rotation * new Vector3(0f, transform.localScale.y, 0f);
+            return transform.position + transform.rotation * new Vector3(0f, _length, 0f);
         }
-        
+
+        public Vector3 GetLocalTipPosition()
+        {
+            return new Vector3(0f, _length, 0f);
+        }
+
         /// <summary>
         /// Grow children in a coroutine, scaling them along y
         /// </summary>
@@ -59,13 +66,12 @@ namespace Racines
         private IEnumerator Sprout()
         {
             float elapsedTime = 0f;
-            Vector3 initialScale = new Vector3(1f, 0f, 1f);
-            float length = Utils.RandomFromGaussion(mean: 1f, sigma: RootManager.Instance.sproutLengthSigma);
-            Vector3 finalScale = new Vector3(1f, length, 1f);
+            float finalLength = Utils.RandomFromGaussion(mean: RootManager.Instance.meanSproutLength,
+                                               sigma: RootManager.Instance.sproutLengthSigma);
             float timeToGrow = RootManager.Instance.timeToGrowSprout;
             while (elapsedTime < timeToGrow)
             {
-                transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / timeToGrow);
+                _length = Mathf.Lerp(0f, finalLength, elapsedTime / timeToGrow);
                 elapsedTime += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
@@ -150,19 +156,17 @@ namespace Racines
             {
                 StartCoroutine(_parent.Widen());
             }
-            var newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);
-            var scale = transform.localScale;
+            
             float elapsedTime = 0f;
-            Vector3 initialScale = new Vector3(scale.x, scale.y, scale.z);
-            Vector3 finalScale = new Vector3((newWidth / _width) * scale.x, scale.y, scale.z);
+            float oldWidth = _width;
+            float newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);
             float timeToGrow = RootManager.Instance.timeToGrowSprout;
             while (elapsedTime < timeToGrow)
             {
-                transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / timeToGrow);
+                _width = Mathf.Lerp(oldWidth, newWidth, elapsedTime / timeToGrow);
                 elapsedTime += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
-            _width = newWidth;
         }
 
         public void AddNutriment(Nutriment other)
