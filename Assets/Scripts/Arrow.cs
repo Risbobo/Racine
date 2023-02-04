@@ -39,11 +39,12 @@ namespace Racines
 
             //scale up the Arrow in function of the distance of the mouse
             float distance = Vector2.Distance(arrowPoint2D, mousePoint2D);
-            if (distance <= _maxSizeArrow)
+            if (distance > _maxSizeArrow)
             {
-                _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, distance, _scaleShaftOrigin.z);
+                distance = _maxSizeArrow;
             }
 
+            _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, distance, _scaleShaftOrigin.z);
             _arrowhead.transform.position = Vector2.MoveTowards(arrowPoint2D, mousePoint2D, _maxSizeArrow);
         }
 
