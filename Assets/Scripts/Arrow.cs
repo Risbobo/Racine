@@ -6,9 +6,15 @@ namespace Racines
     {
 
         [SerializeField] private GameObject _arrowPrefab;
+        [SerializeField] private GameObject _shaft;
+        [SerializeField] private GameObject _arrowhead;
+        [SerializeField] private float _maxSizeArrow = 2.5f;
+
+        private Vector3 _scaleShaftOrigin;
 
         private void Start()
         {
+            _scaleShaftOrigin = _shaft.transform.localScale;
             _arrowPrefab.SetActive(false);
         }
 
@@ -33,14 +39,16 @@ namespace Racines
 
             //scale up the Arrow in function of the distance of the mouse
             float distance = Vector2.Distance(arrowPoint2D, mousePoint2D);
-            _arrowPrefab.transform.localScale = distance/(distance+5)*3 * Vector3.one;
+            if (distance <= _maxSizeArrow)
+            {
+                _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, distance, _scaleShaftOrigin.z);
+            }
 
-
+            _arrowhead.transform.position = Vector2.MoveTowards(arrowPoint2D, mousePoint2D, _maxSizeArrow);
         }
 
         public void DeactivateArrow()
         {
-            _arrowPrefab.transform.localScale = Vector3.one;
             _arrowPrefab.SetActive(false);
         }
 
