@@ -204,8 +204,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8886d51c632c491484ea1804ebe3ab11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDepth: 3
+  _depth: 0
+  _initialWidth: 1
+  _maxDepth: 4
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
+  _shrinkFactor: 0.8
+  _width: 0
 --- !u!1 &837376442
 GameObject:
   m_ObjectHideFlags: 0
