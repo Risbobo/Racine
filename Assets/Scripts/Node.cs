@@ -104,23 +104,31 @@ namespace Racines
             _maxDepth = parent._maxDepth;
             _depth = parent._depth + 1;
             
-            parent.Widen();
+            StartCoroutine(parent.Widen());
         }
         
         /// <summary>
         /// Recursively widen the parents by scaling them along X
         /// </summary>
-        private void Widen()
+        private IEnumerator Widen()
         {
-            var newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);
-            var scale = transform.localScale;
-            transform.localScale = new Vector3((newWidth / _width) * scale.x, scale.y, scale.z);
-            _width = newWidth;
-
             if (_parent != null)
             {
-                _parent.Widen();
+                StartCoroutine(_parent.Widen());
             }
+            var newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);
+            var scale = transform.localScale;
+            float elapsedTime = 0f;
+            Vector3 initialScale = new Vector3(scale.x, scale.y, scale.z);
+            Vector3 finalScale = new Vector3((newWidth / _width) * scale.x, scale.y, scale.z);
+            float timeToGrow = RootManager.Instance.timeToGrowSprout;
+            while (elapsedTime < timeToGrow)
+            {
+                transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / timeToGrow);
+                elapsedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+            _width = newWidth;
         }
     }
 }
