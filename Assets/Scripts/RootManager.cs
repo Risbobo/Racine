@@ -25,6 +25,9 @@ namespace Racines
         /// </summary>
         public float timeToGrowSprout;
 
+        public float minSproutLength;
+        public float maxSproutLength;
+
         private static RootManager _instance;
 
         public static RootManager Instance
