@@ -8,12 +8,17 @@ namespace Racines
         private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
-        
+        private bool _isLeaf;
+
         protected void Start()
         {
             if (_depth < _maxDepth)
             {
                 StartCoroutine(CreateChildren());
+            }
+            else
+            {
+                _isLeaf = true;
             }
         }
 
