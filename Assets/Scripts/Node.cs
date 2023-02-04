@@ -17,7 +17,7 @@ namespace Racines
         [SerializeField] private Calyptra _calyptraPrefab;
         
         private Calyptra _calyptra;
-        private Node _parent;
+        public Node _parent;
         private float _width;
 
         protected void Start()
