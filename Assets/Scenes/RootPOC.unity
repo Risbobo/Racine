@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8886d51c632c491484ea1804ebe3ab11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDepth: 5
+  _maxDepth: 3
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
 --- !u!1 &837376442
 GameObject:

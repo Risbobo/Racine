@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Racines
 {
@@ -8,17 +10,27 @@ namespace Racines
         private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
+
+        private RootParams _rootParams;
         private bool _isLeaf;
 
         protected void Start()
         {
+            _rootParams = GetComponent<RootParams>();
+            Grow();
+        }
+
+        private void Grow()
+        {
             if (_depth < _maxDepth)
             {
                 StartCoroutine(CreateChildren());
+                _rootParams.Calyptra.gameObject.SetActive(false);
             }
             else
             {
                 _isLeaf = true;
+                _rootParams.Calyptra.gameObject.SetActive(true);
             }
         }
 
