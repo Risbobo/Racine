@@ -10,8 +10,9 @@ namespace Racines
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
+        [SerializeField] private Calyptra _calyptraPrefab;
         
-        private RootParams _rootParams;
+        private Calyptra _calyptra;
         private Node _parent;
         
         [SerializeField] private float _width;
@@ -19,23 +20,19 @@ namespace Racines
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
-            _rootParams = GetComponent<RootParams>();
-            // Disable calyptra so that it only appears on leaves
-            _rootParams.Calyptra.gameObject.SetActive(false);
-            
             StartCoroutine(Sprout());
-            _rootParams.Calyptra.Clicked += OnCalyptraClicked;
         }
 
         private void OnCalyptraClicked()
         {
+            DestroyCalyptra();
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
             Grow(mustHaveChildren: true);
         }
 
-        private Vector3 GetCalyptraPosition()
+        private Vector3 GetTipPosition()
         {
-            return _rootParams.Calyptra.transform.position;
+            return transform.position + transform.rotation * new Vector3(0f, transform.localScale.y, 0f);
         }
         
         /// <summary>
@@ -65,12 +62,23 @@ namespace Racines
             if (_depth < _maxDepth && (hasNotBeenKilled || mustHaveChildren))
             {
                 CreateChildren();
-                _rootParams.Calyptra.gameObject.SetActive(false);
             }
             else
             {
-                _rootParams.Calyptra.gameObject.SetActive(true);
+                CreateCalyptra();
             }
+        }
+
+        private void CreateCalyptra()
+        {
+            _calyptra = Instantiate(_calyptraPrefab, GetTipPosition(), Quaternion.identity);
+            _calyptra.Clicked += OnCalyptraClicked;
+        }
+
+        private void DestroyCalyptra()
+        {
+            _calyptra.Clicked -= OnCalyptraClicked;
+            Destroy(_calyptra.gameObject);
         }
 
         private void CreateChildren()
@@ -98,10 +106,11 @@ namespace Racines
         {
             _parent = parent;
 
-            transform.position = parent.GetCalyptraPosition();
+            transform.position = parent.GetTipPosition();
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward) * parent.transform.rotation;
             
             _shapePrefab = parent._shapePrefab;
+            _calyptraPrefab = parent._calyptraPrefab;
             _maxDepth = parent._maxDepth;
             _depth = parent._depth + 1;
             

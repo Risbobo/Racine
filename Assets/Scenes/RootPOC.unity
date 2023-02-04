@@ -207,6 +207,7 @@ MonoBehaviour:
   _depth: 0
   _maxDepth: 4
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
+  _calyptraPrefab: {fileID: 6319498608059453381, guid: bad34ee35f888bd4f8b7b61b36b974e2, type: 3}
   _width: 0
 --- !u!1 &837376442
 GameObject:
