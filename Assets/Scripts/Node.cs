@@ -46,7 +46,7 @@ namespace Racines
         {
             float elapsedTime = 0f;
             Vector3 initialScale = new Vector3(1f, 0f, 1f);
-            float length = Random.Range(RootManager.Instance.minSproutLength, RootManager.Instance.maxSproutLength);
+            float length = Utils.RandomFromGaussion(mean: 1f, sigma: RootManager.Instance.sproutLengthSigma);
             Vector3 finalScale = new Vector3(1f, length, 1f);
             float timeToGrow = RootManager.Instance.timeToGrowSprout;
             while (elapsedTime < timeToGrow)

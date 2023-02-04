@@ -371,9 +371,8 @@ MonoBehaviour:
   minFanAngle: 10
   maxFanAngle: 50
   depthIncrement: 3
-  initialWidth: 1
+  initialWidth: 2
   killProbability: 0.2
   splitProbability: 0.7
   timeToGrowSprout: 1
-  minSproutLength: 0.7
-  maxSproutLength: 2.4
+  sproutLengthSigma: 0.4
