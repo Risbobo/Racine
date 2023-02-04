@@ -17,7 +17,7 @@ namespace Racines
         [SerializeField] private Calyptra _calyptraPrefab;
         
         private Calyptra _calyptra;
-        public Node _parent;
+        private Node _parent;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
         
         private float _width;
@@ -52,11 +52,6 @@ namespace Racines
         public Vector3 GetTipPosition()
         {
             return transform.position + transform.rotation * new Vector3(0f, _length, 0f);
-        }
-
-        public Vector3 GetLocalTipPosition()
-        {
-            return new Vector3(0f, _length, 0f);
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ public class RacineMeshMaker : MonoBehaviour
     private Vector3[] GetNodePoints()
     {
         var nodePoints = new List<Vector3>();
-        nodePoints.Add(_node.GetLocalTipPosition());
+        //nodePoints.Add(_node.GetLocalTipPosition());
         nodePoints.AddRange(_node.Children.Select(child => Quaternion.Inverse(_node.transform.rotation)
                                                            * (child.GetTipPosition() - _node.GetRootPosition())));
         return nodePoints.ToArray();
