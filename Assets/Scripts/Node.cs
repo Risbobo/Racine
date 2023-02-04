@@ -7,7 +7,7 @@ namespace Racines
 {
     public class Node : MonoBehaviour
     {
-        private int _depth;
+        [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
 
@@ -17,6 +17,13 @@ namespace Racines
         protected void Start()
         {
             _rootParams = GetComponent<RootParams>();
+            Grow();
+            _rootParams.Calyptra.Clicked += OnCalyptraClicked;
+        }
+
+        private void OnCalyptraClicked()
+        {
+            _maxDepth += 3;
             Grow();
         }
 
