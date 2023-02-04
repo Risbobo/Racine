@@ -19,11 +19,20 @@ namespace Racines
         private Calyptra _calyptra;
         private Node _parent;
         private float _width;
-
+        private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
+        
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
             StartCoroutine(Sprout());
+        }
+
+        protected void Update()
+        {
+            foreach (var nutriment in _nutrimentsInContact)
+            {
+                nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
+            }
         }
 
         private void OnCalyptraClicked()
@@ -154,6 +163,12 @@ namespace Racines
                 yield return new WaitForEndOfFrame();
             }
             _width = newWidth;
+        }
+
+        public void AddNutriment(Nutriment other)
+        {
+            var newNutriment = other.GetComponent<Nutriment>();
+            _nutrimentsInContact.Add(newNutriment);
         }
     }
 }
