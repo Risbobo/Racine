@@ -369,6 +369,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minFanAngle: 10
-  maxFanAngle: 40
-  depthIncrement: 2
+  maxFanAngle: 50
+  depthIncrement: 3
   initialWidth: 1
+  killProbability: 0.2
+  splitProbability: 0.7

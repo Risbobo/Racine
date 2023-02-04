@@ -13,7 +13,6 @@ namespace Racines
         
         private RootParams _rootParams;
         private Node _parent;
-        private bool _isLeaf;
         
         [SerializeField] private float _width;
 
@@ -28,7 +27,7 @@ namespace Racines
         private void OnCalyptraClicked()
         {
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
-            Grow();
+            Grow(mustHaveChildren: true);
         }
 
         private Vector3 GetCalyptraPosition()
@@ -36,16 +35,16 @@ namespace Racines
             return _rootParams.Calyptra.transform.position;
         }
 
-        private void Grow()
+        private void Grow(bool mustHaveChildren = false)
         {
-            if (_depth < _maxDepth)
+            bool hasNotBeenKilled = Random.Range(0f, 1f) > RootManager.Instance.killProbability;
+            if (_depth < _maxDepth && (hasNotBeenKilled || mustHaveChildren))
             {
                 StartCoroutine(CreateChildren());
                 _rootParams.Calyptra.gameObject.SetActive(false);
             }
             else
             {
-                _isLeaf = true;
                 _rootParams.Calyptra.gameObject.SetActive(true);
             }
         }
@@ -53,8 +52,18 @@ namespace Racines
         private IEnumerator CreateChildren()
         {
             yield return new WaitForSeconds(0.5f);
-            Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, GetFanAngle());
-            Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, -GetFanAngle());
+            bool isSplit = Random.Range(0f, 1f) < RootManager.Instance.splitProbability;
+
+            if (isSplit)
+            {
+                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, GetFanAngle());
+                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, -GetFanAngle());
+            }
+            else
+            {
+                var direction = Random.Range(0, 1) != 0 ? 1 : -1;
+                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, direction * GetFanAngle());
+            }
         }
 
         private static float GetFanAngle()

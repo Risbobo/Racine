@@ -8,6 +8,17 @@ namespace Racines
         public float maxFanAngle;
         public int depthIncrement;
         public float initialWidth;
+        
+        /// <summary>
+        /// The probability that a node does not create children below max depth
+        /// </summary>
+        public float killProbability;
+
+        /// <summary>
+        /// The probability that a node splits into two and not one
+        /// </summary>
+        /// <returns></returns>
+        public float splitProbability;
 
         private static RootManager _instance;
 
