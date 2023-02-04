@@ -170,5 +170,11 @@ namespace Racines
             var newNutriment = other.GetComponent<Nutriment>();
             _nutrimentsInContact.Add(newNutriment);
         }
+        
+        public void RemoveNutriment(Nutriment other)
+        {
+            var oldNutriment = other.GetComponent<Nutriment>();
+            _nutrimentsInContact.Remove(oldNutriment);
+        }
     }
 }
