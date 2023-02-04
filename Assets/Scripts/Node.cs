@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,6 +8,9 @@ namespace Racines
 {
     public class Node : MonoBehaviour
     {
+        public Node Parent => _parent;
+        public List<Node> Children { get; } = new List<Node>();
+        
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
@@ -87,16 +91,23 @@ namespace Racines
 
             if (isSplit)
             {
-                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, GetFanAngle());
-                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, -GetFanAngle());
+                CreateChild(GetFanAngle());
+                CreateChild(-GetFanAngle());
             }
             else
             {
                 var direction = Random.Range(0, 1) != 0 ? 1 : -1;
-                Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, direction * GetFanAngle());
+                CreateChild(direction * GetFanAngle());
             }
         }
 
+        private void CreateChild(float angle)
+        {
+            Node child = Instantiate(_shapePrefab).AddComponent<Node>();
+            child.Initialize(this, angle);
+            Children.Add(child);
+        }
+        
         private static float GetFanAngle()
         {
             return Random.Range(RootManager.Instance.minFanAngle, RootManager.Instance.maxFanAngle);
