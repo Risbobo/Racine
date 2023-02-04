@@ -20,7 +20,7 @@ namespace Racines
         {
             _width = RootManager.Instance.initialWidth;
             _rootParams = GetComponent<RootParams>();
-            Grow();
+            StartCoroutine(Sprout());
             _rootParams.Calyptra.Clicked += OnCalyptraClicked;
         }
 
@@ -34,13 +34,30 @@ namespace Racines
         {
             return _rootParams.Calyptra.transform.position;
         }
+        
+        /// <summary>
+        /// Grow children in a coroutine, scaling them along y
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator Sprout()
+        {
+            _rootParams.Calyptra.gameObject.SetActive(false);
+            for (float alpha = 0; alpha <= 1; alpha += 1f / RootManager.Instance.numberOfStepsToSprout)
+            {
+                transform.localScale = new Vector3(1, alpha, 1);
+                yield return new WaitForSeconds(RootManager.Instance.timeToGrowSprout
+                                                / RootManager.Instance.numberOfStepsToSprout);
+            }
+
+            Grow();
+        }
 
         private void Grow(bool mustHaveChildren = false)
         {
             bool hasNotBeenKilled = Random.Range(0f, 1f) > RootManager.Instance.killProbability;
             if (_depth < _maxDepth && (hasNotBeenKilled || mustHaveChildren))
             {
-                StartCoroutine(CreateChildren());
+                CreateChildren();
                 _rootParams.Calyptra.gameObject.SetActive(false);
             }
             else
@@ -49,9 +66,8 @@ namespace Racines
             }
         }
 
-        private IEnumerator CreateChildren()
+        private void CreateChildren()
         {
-            yield return new WaitForSeconds(0.5f);
             bool isSplit = Random.Range(0f, 1f) < RootManager.Instance.splitProbability;
 
             if (isSplit)
@@ -85,6 +101,9 @@ namespace Racines
             parent.Widen();
         }
         
+        /// <summary>
+        /// Recursively widen the parents by scaling them along X
+        /// </summary>
         private void Widen()
         {
             var newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);

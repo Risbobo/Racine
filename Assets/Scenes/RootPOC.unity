@@ -374,3 +374,5 @@ MonoBehaviour:
   initialWidth: 1
   killProbability: 0.2
   splitProbability: 0.7
+  timeToGrowSprout: 1
+  numberOfStepsToSprout: 10
