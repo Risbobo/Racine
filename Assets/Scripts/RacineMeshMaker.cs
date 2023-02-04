@@ -10,7 +10,9 @@ public class RacineMeshMaker : MonoBehaviour
 {
     public Vector3[] NodePoints => GetNodePoints();
 
-    public Vector3 Parent => _node.GetRootPosition();
+    public Vector3[] DebugPos;
+
+    public Vector3 Parent = new(0f, -10f, 0f);
     
     public float[] NodeWidth => GetNodeWidths();
 
@@ -18,11 +20,14 @@ public class RacineMeshMaker : MonoBehaviour
 
     private Node _node;
 
+    public float widthRatio = 0.05f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        _node = GetComponentInParent<Node>();
+        _node = GetComponentInParent<Node>();     
+
         UpdateMesh();
     }
     
@@ -42,9 +47,22 @@ public class RacineMeshMaker : MonoBehaviour
         return widths.ToArray();
     }
 
+    private Vector3 GetParent()
+    {
+        //if (_node._parent != null)
+        //{
+        //    return _node._parent.transform.position;
+        //}
+
+        //return Parent;
+
+        return _node.GetRootPosition();
+    }
+
     // Update is called once per frame
     void Update()
     {
+
         UpdateMesh();
     }
 
@@ -68,6 +86,8 @@ public class RacineMeshMaker : MonoBehaviour
         {
             UpdateMeshStub(NodePoints, NodeWidth, Parent);
         }
+
+        DebugPos = NodePoints;
     }
 
     private void UpdateMeshFork(Vector3[] nodePoints, float[] nodeWidth, Vector3 parentNode)
@@ -96,8 +116,8 @@ public class RacineMeshMaker : MonoBehaviour
                 perpend = Vector3.Cross(Leg[i - 1], Vector3.forward).normalized;
             }
 
-            Vertices[2 * i] = nodePoints[i] + perpend * nodeWidth[i];
-            Vertices[2 * i + 1] = nodePoints[i] - perpend * nodeWidth[i];
+            Vertices[2 * i] = nodePoints[i] + perpend * nodeWidth[i] * widthRatio;
+            Vertices[2 * i + 1] = nodePoints[i] - perpend * nodeWidth[i] * widthRatio;
         }
         //calcul du bas du pantalon
         float x0 = Vertices[0].x;
@@ -155,8 +175,8 @@ public class RacineMeshMaker : MonoBehaviour
                 perpend = Vector3.Cross(Leg[i - 1], Vector3.forward).normalized;
             }
 
-            Vertices[2 * i] = NodePoints[i] + perpend * NodeWidth[i];
-            Vertices[2 * i + 1] = NodePoints[i] - perpend * NodeWidth[i];
+            Vertices[2 * i] = NodePoints[i] + perpend * NodeWidth[i] * widthRatio; ;
+            Vertices[2 * i + 1] = NodePoints[i] - perpend * NodeWidth[i] * widthRatio; ;
         }
         
 
@@ -184,7 +204,7 @@ public class RacineMeshMaker : MonoBehaviour
 
         for (int i = 1; i <= HalfCirclePoints; i++)
         {
-            Vertices[i] = NodePoints[0] + Quaternion.AngleAxis((i-1)*180f / (HalfCirclePoints-1), Vector3.forward) * perpend * NodeWidth[0];
+            Vertices[i] = NodePoints[0] + Quaternion.AngleAxis((i-1)*180f / (HalfCirclePoints-1), Vector3.forward) * perpend * NodeWidth[0] * widthRatio; ;
 
         }
 
