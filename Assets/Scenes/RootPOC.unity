@@ -209,6 +209,8 @@ MonoBehaviour:
   _maxDepth: 4
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
   _shrinkFactor: 0.8
+  _timeToGrow: 1
+  _frames: 10
   _width: 0
 --- !u!1 &837376442
 GameObject:

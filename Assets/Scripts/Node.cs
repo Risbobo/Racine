@@ -12,6 +12,8 @@ namespace Racines
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
         [SerializeField] private float _shrinkFactor;
+        [SerializeField] private float _timeToGrow = 1;
+        [SerializeField] private float _frames = 10;
         
         private RootParams _rootParams;
         private Node _parent;
@@ -22,13 +24,14 @@ namespace Racines
         {
             _width = _initialWidth;
             _rootParams = GetComponent<RootParams>();
-            Grow();
+            StartCoroutine(Sprout());
             _rootParams.Calyptra.Clicked += OnCalyptraClicked;
         }
 
         private void OnCalyptraClicked()
         {
             _maxDepth += 3;
+            //StartCoroutine(Grow());
             Grow();
         }
 
@@ -37,11 +40,24 @@ namespace Racines
             return _rootParams.Calyptra.transform.position;
         }
 
+        private IEnumerator Sprout()
+        {
+            _rootParams.Calyptra.gameObject.SetActive(false);
+            for (float alpha = 0; alpha <= 1; alpha += 1f / _frames)
+            {
+                transform.localScale = new Vector3(1, alpha, 1);
+                yield return new WaitForSeconds(_timeToGrow / _frames);
+            }
+
+            Grow();
+        }
+        
         private void Grow()
         {
             if (_depth < _maxDepth)
             {
-                StartCoroutine(CreateChildren());
+                //StartCoroutine(CreateChildren());
+                CreateChildren();
                 _rootParams.Calyptra.gameObject.SetActive(false);
             }
             else
@@ -51,9 +67,10 @@ namespace Racines
             }
         }
 
-        private IEnumerator CreateChildren()
+        //private IEnumerator CreateChildren()
+        private void CreateChildren()
         {
-            yield return new WaitForSeconds(0.5f);
+            //yield return new WaitForSeconds(0.5f);
             Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this);
             Instantiate(_shapePrefab).AddComponent<Node>().Initialize(this, -1f);
         }
@@ -65,15 +82,18 @@ namespace Racines
 
             transform.position = parent.GetCalyptraPosition();
             transform.rotation = Quaternion.AngleAxis(factor * Random.Range(15f, 75f), Vector3.forward) * parent.transform.rotation;
-            
+            transform.localScale = Vector3.zero;
+
             _shapePrefab = parent._shapePrefab;
             _maxDepth = parent._maxDepth;
             _initialWidth = parent._initialWidth;
             _depth = parent._depth + 1;
-            
+
+            //StartCoroutine(Sprout());
+
             parent.GrowWidth();
         }
-        
+
         private void GrowWidth()
         {
             // To Do : Rendu graphique en fonction de la _width
