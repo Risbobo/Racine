@@ -9,14 +9,16 @@ namespace Racines
         private Node _node;
         private PolygonCollider2D _collider;
 
-        public float intoParent = 0.2f;
-        public int curveSegments = 10;
+        private float intoParent;
+        private int curveSegments;
 
         protected void Start()
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _node = GetComponentInParent<Node>();
             _collider = GetComponentInParent<PolygonCollider2D>();
+            intoParent = RootManager.Instance.RootCurveLengthPercernt;
+            curveSegments = RootManager.Instance.RootCurveSegments;
         }
 
         protected void Update()

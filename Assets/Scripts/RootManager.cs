@@ -30,6 +30,10 @@ namespace Racines
 
         public bool selfCollide;
 
+        public float RootCurveLengthPercernt;
+
+        public int RootCurveSegments;
+
         private static RootManager _instance;
 
         public static RootManager Instance
