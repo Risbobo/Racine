@@ -448,7 +448,6 @@ MonoBehaviour:
   maxFanAngle: 75
   depthIncrement: 5
   initialWidth: 0.05
-  killProbability: 0.1
   splitProbability: 0.7
   timeToGrowSprout: 0.2
   meanSproutLength: 1
@@ -456,5 +455,6 @@ MonoBehaviour:
   selfCollide: 1
   directionalPullStrength: 0.8
   splitSurvivalRatio: 0.5
-  maxSplitAngle: 50
   maxFirstAngle: 30
+  RootCurveLengthPercernt: 0.3
+  RootCurveSegments: 6
