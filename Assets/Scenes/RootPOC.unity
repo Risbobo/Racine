@@ -131,10 +131,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 837376443}
     m_Modifications:
-    - target: {fileID: 1326551182121063520, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
-      propertyPath: intoParent
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 6323260252550839736, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -212,6 +208,7 @@ MonoBehaviour:
   _maxDepth: 4
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
   _calyptraPrefab: {fileID: 6319498608059453381, guid: bad34ee35f888bd4f8b7b61b36b974e2, type: 3}
+  _growthDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &837376442
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,13 +444,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6e2decf3774f508d4f3a6908b43f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFanAngle: 10
-  maxFanAngle: 50
-  depthIncrement: 3
+  minFanAngle: 30
+  maxFanAngle: 75
+  depthIncrement: 5
   initialWidth: 0.05
-  killProbability: 0.2
+  killProbability: 0.1
   splitProbability: 0.7
-  timeToGrowSprout: 1
+  timeToGrowSprout: 0.2
   meanSproutLength: 1
   sproutLengthSigma: 0.4
-  selfCollide: 0
+  selfCollide: 1
+  directionalPullStrength: 0.8
+  splitSurvivalRatio: 0.5
+  maxSplitAngle: 50
+  maxFirstAngle: 30

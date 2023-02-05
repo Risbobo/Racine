@@ -9,12 +9,6 @@ namespace Racines
         public int depthIncrement;
         public float initialWidth;
         
-        /// <summary>
-        /// The probability that a node does not create children below max depth
-        /// </summary>
-        public float killProbability;
-
-        /// <summary>
         /// The probability that a node splits into two and not one
         /// </summary>
         /// <returns></returns>
@@ -27,8 +21,11 @@ namespace Racines
 
         public float meanSproutLength;
         public float sproutLengthSigma;
-
         public bool selfCollide;
+        public float directionalPullStrength;
+
+        public float splitSurvivalRatio;
+        public float maxFirstAngle;
 
         public float RootCurveLengthPercernt;
 

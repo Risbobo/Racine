@@ -5,13 +5,18 @@ using UnityEngine;
 
 namespace Racines
 {
+    public class GrowthParams
+    {
+        public Vector3 growthDirection;
+    }
+    
     [RequireComponent(typeof(SpriteRenderer))]
     public class Calyptra : MonoBehaviour
     {
         private const float HoverScaleFactor = 1.5f;
         private SpriteRenderer _spriteRenderer;
 
-        public event Action Clicked = delegate { };
+        public event Action<GrowthParams> SignalGrowth = delegate { };
 
         public Arrow _arrow;
         private bool _mouseDown;
@@ -85,8 +90,8 @@ namespace Racines
             _mouseDown = false;
             if (_arrow.IsArrowActive)
             {
+                SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction }); 
                 _arrow.HideArrow();
-                Clicked(); 
             }
         }
     }

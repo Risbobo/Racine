@@ -9,6 +9,7 @@ namespace Racines
         [SerializeField] private GameObject _shaft;
         [SerializeField] private GameObject _arrowhead;
         [SerializeField] private float _maxSizeArrow = 2.5f;
+        [SerializeField] private float _minArrowLengthForDirection = 0.2f;
 
         private Vector3 _scaleShaftOrigin;
         
@@ -17,6 +18,8 @@ namespace Racines
         public bool IsArrowActive => _arrowPrefab.activeSelf;
 
         private float ArrowLength { get; set; }
+        public Vector3 Direction { get; private set; }
+        [SerializeField] private Vector3 _direction;
 
         public static Arrow Instance
         {
@@ -71,6 +74,10 @@ namespace Racines
 
             _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, ArrowLength, _scaleShaftOrigin.z);
             _arrowhead.transform.position = Vector2.MoveTowards(arrowPoint2D, mousePoint2D, _maxSizeArrow);
+
+            Direction = ArrowLength > _minArrowLengthForDirection
+               ? (mousePoint2D - arrowPoint2D).normalized
+               : Vector3.zero;
         }
 
         //Get the mouse position from the screen to the Game POV

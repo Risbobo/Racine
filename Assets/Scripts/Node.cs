@@ -26,6 +26,8 @@ namespace Racines
         
         private float _width;
         private float _length;
+        [SerializeField] private Vector3 _growthDirection;
+        private float _probabilityToSpawn = 1f;
 
 
         protected void Start()
@@ -57,13 +59,14 @@ namespace Racines
             StopCoroutine(_sproutRoutine);
         }
 
-        private void OnCalyptraClicked()
+        private void OnCalyptraGrowthSignal(GrowthParams growthParams)
         {
             DestroyCalyptra();
 
-
+            _growthDirection = growthParams.growthDirection;
+            _probabilityToSpawn = 1f;
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
-            Grow(mustHaveChildren: true);
+            Grow();
         }
 
         public Vector3 GetRootPosition()
@@ -96,11 +99,10 @@ namespace Racines
             Grow();
         }
 
-        private void Grow(bool mustHaveChildren = false)
+        private void Grow()
         {
-            bool hasNotBeenKilled = Random.Range(0f, 1f) > RootManager.Instance.killProbability;
-
-            if (_depth < _maxDepth && (hasNotBeenKilled || mustHaveChildren))
+            bool mustSpawn = Random.Range(0f, 1f) <= _probabilityToSpawn;
+            if (_depth < _maxDepth && mustSpawn)
             {
                 CreateChildren();
             }
@@ -112,36 +114,35 @@ namespace Racines
 
         private void CreateCalyptra()
         {
-            _calyptra = Instantiate(_calyptraPrefab, GetTipPosition(), Quaternion.identity);
-            _calyptra.Clicked += OnCalyptraClicked;
+            _calyptra = Instantiate(_calyptraPrefab, GetTipPosition() + Vector3.back * 0.2f, Quaternion.identity);
+            _calyptra.SignalGrowth += OnCalyptraGrowthSignal;
         }
 
         private void DestroyCalyptra()
         {
-            _calyptra.Clicked -= OnCalyptraClicked;
+            _calyptra.SignalGrowth -= OnCalyptraGrowthSignal;
             Destroy(_calyptra.gameObject);
         }
 
         private void CreateChildren()
         {
+            float angle = Random.Range(-RootManager.Instance.maxFirstAngle, RootManager.Instance.maxFirstAngle);
+            CreateChild(angle, isSplit: false);
+            
             bool isSplit = Random.Range(0f, 1f) < RootManager.Instance.splitProbability;
 
             if (isSplit)
             {
-                CreateChild(GetFanAngle());
-                CreateChild(-GetFanAngle());
-            }
-            else
-            {
-                var direction = Random.Range(0, 1) != 0 ? 1 : -1;
-                CreateChild(direction * GetFanAngle());
+                var direction = Mathf.Sign(Random.Range(-1f, 1f));
+                float splitAngle = Random.Range(RootManager.Instance.minFanAngle, RootManager.Instance.maxFanAngle);
+                CreateChild(angle + direction * splitAngle, isSplit: true);
             }
         }
 
-        private void CreateChild(float angle)
+        private void CreateChild(float angle, bool isSplit)
         {
             Node child = Instantiate(_shapePrefab).AddComponent<Node>();
-            child.Initialize(this, angle);
+            child.Initialize(this, angle, isSplit);
             Children.Add(child);
         }
         
@@ -150,19 +151,36 @@ namespace Racines
             return Random.Range(RootManager.Instance.minFanAngle, RootManager.Instance.maxFanAngle);
         }
         
-        private void Initialize(Node parent, float angle)
+        private void Initialize(Node parent, float angle, bool isSplit)
         {
             _parent = parent;
 
-            transform.position = parent.GetTipPosition();
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward) * parent.transform.rotation;
-            
             _shapePrefab = parent._shapePrefab;
             _calyptraPrefab = parent._calyptraPrefab;
+            _growthDirection = parent._growthDirection;
+            _probabilityToSpawn = parent._probabilityToSpawn;
             _maxDepth = parent._maxDepth;
             _depth = parent._depth + 1;
+
+            // Split branches are more short-lived
+            if (isSplit)
+            {
+                _probabilityToSpawn *= RootManager.Instance.splitSurvivalRatio;
+            }
+            
+            transform.position = parent.GetTipPosition();
+            transform.rotation = GetRotation(angle);
             
             StartCoroutine(parent.Widen());
+        }
+        
+        private Quaternion GetRotation(float angle)
+        {
+            var rotationWithoutPull = Quaternion.AngleAxis(angle, Vector3.forward) * _parent.transform.rotation;
+            var directionWithoutPull = rotationWithoutPull * Vector3.up;
+            float alpha = RootManager.Instance.directionalPullStrength;
+            var direction = alpha * _growthDirection + (1 - alpha) * directionWithoutPull;
+            return Quaternion.FromToRotation(Vector3.up, direction);
         }
         
         /// <summary>
