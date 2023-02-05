@@ -14,6 +14,10 @@ namespace Racines
     public class Calyptra : MonoBehaviour
     {
         private const float HoverScaleFactor = 1.5f;
+
+        private Vector3 _normalScaleVector;
+        private Vector3 _hoverScaleVector;
+
         private SpriteRenderer _spriteRenderer;
 
         public event Action<GrowthParams> SignalGrowth = delegate { };
@@ -24,6 +28,8 @@ namespace Racines
         protected void Start()
         {
             _arrow = Arrow.Instance;
+            _normalScaleVector = transform.localScale;
+            _hoverScaleVector = HoverScaleFactor * transform.localScale;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             SetSpriteAlpha(0f, 0f);
             GameManager.Instance.calyptraList.Add(this);
@@ -107,7 +113,7 @@ namespace Racines
         {
             _arrow.HideArrow();
             SetSpriteAlpha(1f, 0.1f);
-            transform.localScale *= HoverScaleFactor;
+            transform.localScale = _hoverScaleVector;
         }
 
         public void deHighlightCalyptra()
@@ -118,7 +124,7 @@ namespace Racines
             }
 
             SetSpriteAlpha(0f, 0.1f);
-            transform.localScale /= HoverScaleFactor;
+            transform.localScale = _normalScaleVector;
         }
     }
 }
