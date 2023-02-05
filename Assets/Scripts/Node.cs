@@ -143,7 +143,7 @@ namespace Racines
 
         private void CreateChild(float angle, bool isSplit)
         {
-            Node child = Instantiate(_shapePrefab).AddComponent<Node>();
+            Node child = Instantiate(_shapePrefab, GetComponentInParent<Transform>()).AddComponent<Node>();
             child.Initialize(this, angle, isSplit);
             Children.Add(child);
         }

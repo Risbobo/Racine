@@ -32,7 +32,7 @@ namespace Racines
 
             if (_node.Parent == null)
             {
-                var positions = new Vector3[] { _node.GetRootPosition(), _node.GetTipPosition() };
+                var positions = new Vector3[] { _node.GetRootPosition(), Vector3.Lerp(_node.GetTipPosition(), _node.GetRootPosition(), intoParent) };
                 _lineRenderer.SetPositions(positions);
             }
             else
