@@ -25,6 +25,8 @@ namespace Racines
         private Node _parent;
         private Coroutine _sproutRoutine;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
+
+        public GameManager _gameManager;
         
         private float _width;
         private float _length;
@@ -36,13 +38,16 @@ namespace Racines
         {
             _width = _rootManager.initialWidth;
             _sproutRoutine = StartCoroutine(Sprout());
+            _gameManager = GameManager.Instance;
         }
 
         protected void Update()
         {
             foreach (var nutriment in _nutrimentsInContact)
             {
-                nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
+                float absorbedNutrimentValue = nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
+
+                _gameManager.UpdateEnergy(absorbedNutrimentValue);
             }
         }
 
@@ -69,6 +74,12 @@ namespace Racines
             _probabilityToSpawn = 1f;
             _maxDepth = _depth + _rootManager.depthIncrement;
             Grow();
+
+            // check if there are still active ends in the Game. If not: Game Over
+            if (GameObject.FindObjectOfType<Calyptra>() == null)
+            {
+                _gameManager.GameOver(1);
+            }
         }
 
         public Vector3 GetRootPosition()
@@ -143,9 +154,14 @@ namespace Racines
 
         private void CreateChild(float angle, bool isSplit)
         {
+            
             Node child = Instantiate(_shapePrefab).AddComponent<Node>();
             child.Initialize(this, angle, isSplit);
             Children.Add(child);
+
+            // Increase the score and decrease the energy for each new Node
+            _gameManager.UpdateScore(1);
+            _gameManager.UpdateEnergy(-1);
         }
         
         private void Initialize(Node parent, float angle, bool isSplit)
