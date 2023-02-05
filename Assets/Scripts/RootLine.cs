@@ -24,6 +24,8 @@ namespace Racines
 
             intoParent = _rootManager.RootCurveLengthPercernt;
             curveSegments = _rootManager.RootCurveSegments;
+
+            _lineRenderer.material = _rootManager.lineMaterial;
         }
 
         protected void Update()
@@ -92,8 +94,7 @@ namespace Racines
             _collider.pathCount = 1;
             _collider.SetPath(0, colliderPath);
 
-            
-
         }
+
     }
 }

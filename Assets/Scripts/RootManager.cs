@@ -33,5 +33,7 @@ namespace Racines
 
         public int RootCurveSegments;
         public float splitPullStrengthRatio;
+
+        public Material lineMaterial;
     }
 }
