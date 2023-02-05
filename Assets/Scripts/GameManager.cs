@@ -58,7 +58,7 @@ namespace Racines
             {
                 GameOver(3);
             }
-            if (isGameOver)
+            else if (isGameOver)
             {
                 //If R is pressed: restart the game
                 if (Input.GetKeyDown(KeyCode.R))
