@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Racines
 {
@@ -21,7 +22,9 @@ namespace Racines
         private static Vector3 _energyBarScale;
         private float _sizeEnergyBar;
 
-        private bool isGameOver = false;
+        public bool isGameOver = false;
+
+        public List<Calyptra> calyptraList;
 
         private static GameManager _instance;
 
@@ -54,7 +57,18 @@ namespace Racines
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q) && !isGameOver)
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isGameOver)
+            {
+                highlightAllCalyptra();
+            }
+
+            else if (Input.GetKeyUp(KeyCode.LeftShift) && !isGameOver)
+            {
+                deHighlightAllCalyptra();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Q) && !isGameOver)
             {
                 GameOver(3);
             }
@@ -107,6 +121,7 @@ namespace Racines
         {
             if (!isGameOver)
             {
+
                 switch (codeGameOver)
                 {
                     case 0:
@@ -123,7 +138,8 @@ namespace Racines
                 }
 
                 isGameOver = true;
-
+                // Pauses the game
+                Time.timeScale = 0;
                 StartCoroutine(GameOverSequence());
             }
         }
@@ -132,12 +148,38 @@ namespace Racines
         {
             _gameOverPanel.SetActive(true);
             _gameOverText.gameObject.SetActive(true);
-
-            yield return new WaitForSeconds(1.0f);
+            // Real time allows the coroutine to run even when the game is paused
+            yield return new WaitForSecondsRealtime(1.0f);
 
             _gameOverReasonText.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
             _ReplayText.gameObject.SetActive(true);
+        }
+
+        // check if there are still active ends in the Game. If not: Game Over
+        public void checkCalyptraExists()
+        {
+            //If calypra list is empty
+            if (!calyptraList.Any())
+            {
+                GameOver(1);
+            }
+        }
+
+        private void highlightAllCalyptra()
+        {
+            foreach (var ical in calyptraList)
+            {
+                ical.highlightCalyptra();
+            }
+        }
+
+        private void deHighlightAllCalyptra()
+        {
+            foreach (var ical in calyptraList)
+            {
+                ical.deHighlightCalyptra();
+            }
         }
     }
 }
