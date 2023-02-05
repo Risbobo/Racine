@@ -16,6 +16,9 @@ namespace Racines
         [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private float _energyInitial = 100;
 
+        [SerializeField] private float _energyDepletionFactor = 1;
+        [SerializeField] private float _energyGainFactor = 1;
+
         private static float _scoreValue;
         private static float _energyValue;
 
@@ -101,7 +104,15 @@ namespace Racines
 
         public void UpdateEnergy(float energyIncrement)
         {
-            _energyValue += energyIncrement;
+            if (energyIncrement > 0)
+            {
+                _energyValue += energyIncrement * _energyGainFactor;
+            }
+
+            else
+            {
+                _energyValue += energyIncrement * _energyDepletionFactor;
+            }
 
             if (_energyValue > 0)
             {

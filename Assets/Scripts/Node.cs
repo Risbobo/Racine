@@ -15,12 +15,14 @@ namespace Racines
         public Node Parent => _parent;
         public RootManager RootManager => _rootManager;
 
+        
+
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private RootManager _rootManager;
         [SerializeField] private GameObject _shapePrefab;
         [SerializeField] private Calyptra _calyptraPrefab;
-        
+
         private Calyptra _calyptra;
         private Node _parent;
         private Coroutine _sproutRoutine;
