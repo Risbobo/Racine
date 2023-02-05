@@ -345,7 +345,7 @@ MonoBehaviour:
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
   _calyptraPrefab: {fileID: 6319498608059453381, guid: bad34ee35f888bd4f8b7b61b36b974e2, type: 3}
   _gameManager: {fileID: 0}
-  _growthDirection: {x: 0, y: 0, z: 0}
+  _pullDirection: {x: 0, y: -1, z: 0}
 --- !u!1 &837376442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,20 +1164,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6e2decf3774f508d4f3a6908b43f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFanAngle: 30
-  maxFanAngle: 75
-  depthIncrement: 5
+  maxSproutAngle: 55
+  sproutAngleSigma: 20
+  minFanAngle: 45
+  maxFanAngle: 65
+  depthIncrement: 6
   initialWidth: 0.05
-  splitProbability: 0.7
+  splitProbability: 0.5
   timeToGrowSprout: 0.2
   meanSproutLength: 1
   sproutLengthSigma: 0.4
   selfCollide: 1
-  directionalPullStrength: 0.8
-  splitSurvivalRatio: 0.5
-  maxFirstAngle: 30
+  directionalPullStrength: 0.7
+  splitSurvivalRatio: 0.8
   RootCurveLengthPercernt: 0.4
   RootCurveSegments: 6
+  splitPullStrengthRatio: 0.6
 --- !u!1 &1947669978
 GameObject:
   m_ObjectHideFlags: 0

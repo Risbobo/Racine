@@ -4,6 +4,9 @@ namespace Racines
 {
     public class RootManager : MonoBehaviour
     {
+        public float maxSproutAngle;
+        public float sproutAngleSigma;
+        
         public float minFanAngle;
         public float maxFanAngle;
         public int depthIncrement;
@@ -25,10 +28,10 @@ namespace Racines
         public float directionalPullStrength;
 
         public float splitSurvivalRatio;
-        public float maxFirstAngle;
 
         public float RootCurveLengthPercernt;
 
         public int RootCurveSegments;
+        public float splitPullStrengthRatio;
     }
 }

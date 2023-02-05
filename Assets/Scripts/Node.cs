@@ -30,8 +30,9 @@ namespace Racines
         
         private float _width;
         private float _length;
-        [SerializeField] private Vector3 _growthDirection;
+        [SerializeField] private Vector3 _pullDirection = Vector3.down;
         private float _probabilityToSpawn = 1f;
+        private float _pullStrength;
 
 
         protected void Start()
@@ -70,7 +71,8 @@ namespace Racines
         {
             DestroyCalyptra();
 
-            _growthDirection = growthParams.growthDirection;
+            _pullDirection = growthParams.growthDirection;
+            _pullStrength = _rootManager.directionalPullStrength;
             _probabilityToSpawn = 1f;
             _maxDepth = _depth + _rootManager.depthIncrement;
             Grow();
@@ -139,7 +141,7 @@ namespace Racines
 
         private void CreateChildren()
         {
-            float angle = Random.Range(-_rootManager.maxFirstAngle, _rootManager.maxFirstAngle);
+            float angle = GetSproutAngle();
             CreateChild(angle, isSplit: false);
             
             bool isSplit = Random.Range(0f, 1f) < _rootManager.splitProbability;
@@ -170,30 +172,34 @@ namespace Racines
             _shapePrefab = parent._shapePrefab;
             _calyptraPrefab = parent._calyptraPrefab;
             _rootManager = parent._rootManager;
-            _growthDirection = parent._growthDirection;
+            _pullDirection = parent._pullDirection;
             _probabilityToSpawn = parent._probabilityToSpawn;
             _maxDepth = parent._maxDepth;
             _depth = parent._depth + 1;
 
-            // Split branches are more short-lived
+            // Split branches are more short-lived, and don't pull as strongly
             if (isSplit)
             {
                 _probabilityToSpawn *= _rootManager.splitSurvivalRatio;
+                _pullStrength *= _rootManager.splitPullStrengthRatio;
             }
             
             transform.position = parent.GetTipPosition();
-            transform.rotation = GetRotation(angle);
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward) * parent.transform.rotation;
             
             StartCoroutine(parent.Widen());
         }
         
-        private Quaternion GetRotation(float angle)
+        private float GetSproutAngle()
         {
-            var rotationWithoutPull = Quaternion.AngleAxis(angle, Vector3.forward) * _parent.transform.rotation;
-            var directionWithoutPull = rotationWithoutPull * Vector3.up;
-            float alpha = _rootManager.directionalPullStrength;
-            var direction = alpha * _growthDirection + (1 - alpha) * directionWithoutPull;
-            return Quaternion.FromToRotation(Vector3.up, direction);
+            var growthDirection = transform.rotation * Vector3.up;
+
+            var direction = (_pullStrength * _pullDirection + (1f - _pullStrength) * growthDirection).normalized;
+            var angle = Vector3.SignedAngle(growthDirection, direction, Vector3.forward);
+            var sign = Mathf.Sign(angle);
+            angle = sign * Mathf.Clamp(Mathf.Abs(angle), 0f, _rootManager.maxSproutAngle);
+
+            return Utils.RandomFromGaussion(angle, _rootManager.sproutAngleSigma);
         }
         
         /// <summary>
