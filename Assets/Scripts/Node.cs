@@ -24,7 +24,7 @@ namespace Racines
         private Coroutine _sproutRoutine;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
 
-        public ScoreManager _scoreManager;
+        public GameManager _gameManager;
         
         private float _width;
         private float _length;
@@ -33,7 +33,7 @@ namespace Racines
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
-            _scoreManager = ScoreManager.Instance;
+            _gameManager = GameManager.Instance;
             
             StartCoroutine(Sprout());
         }
@@ -44,7 +44,7 @@ namespace Racines
             {
                 float absorbedNutrimentValue = nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
 
-                _scoreManager.UpdateEnergy(absorbedNutrimentValue);
+                _gameManager.UpdateEnergy(absorbedNutrimentValue);
             }
         }
 
@@ -71,10 +71,6 @@ namespace Racines
 
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
             Grow(mustHaveChildren: true);
-
-            // check if there are still active ends in the Game
-            //TODO GAMEOVER
-            var areActiveEnds = GameObject.FindObjectOfType<Calyptra>();
         }
 
         public Vector3 GetRootPosition()
@@ -157,8 +153,8 @@ namespace Racines
             Children.Add(child);
 
             // Increase the score and decrease the energy for each new Node
-            _scoreManager.UpdateScore(1);
-            _scoreManager.UpdateEnergy(-1);
+            _gameManager.UpdateScore(1);
+            _gameManager.UpdateEnergy(-1);
         }
         
         private static float GetFanAngle()
