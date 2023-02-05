@@ -11,7 +11,7 @@ public class Nutriment : MonoBehaviour
 
     [SerializeField] private float _absorbFactor = 0.1f;
 
-    private bool _isDead = false;
+    //private bool _isDead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,32 +20,17 @@ public class Nutriment : MonoBehaviour
         transform.localScale = _nutriment / 100f * Vector3.one;
     }
 
-    void Update()
-    {
-        if (_isDead)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         var node = other.GetComponent<Node>();
         if (node == null)
         {
             return;
         }
-        node.AddNutriment(gameObject.GetComponent<Nutriment>());
-    }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        var node = other.GetComponent<Node>();
-        if (node == null)
-        {
-            return;
-        }
-        node.RemoveNutriment(gameObject.GetComponent<Nutriment>());
+        var rate = node.Width;
+        var energy = isAbsorbed(rate);
+        GameManager.Instance.UpdateEnergy(energy);
     }
     public float isAbsorbed(float width)
     {
@@ -56,7 +41,7 @@ public class Nutriment : MonoBehaviour
 
         if (_nutriment <= 0)
         {
-            _isDead = true;
+            Destroy(gameObject);
         }
 
         return absorbedNutrimentValue;

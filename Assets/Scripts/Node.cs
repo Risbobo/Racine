@@ -24,7 +24,6 @@ namespace Racines
         private Calyptra _calyptra;
         private Node _parent;
         private Coroutine _sproutRoutine;
-        private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
 
         public GameManager _gameManager;
         
@@ -39,16 +38,6 @@ namespace Racines
             _width = _rootManager.initialWidth;
             _sproutRoutine = StartCoroutine(Sprout());
             _gameManager = GameManager.Instance;
-        }
-
-        protected void Update()
-        {
-            foreach (var nutriment in _nutrimentsInContact)
-            {
-                float absorbedNutrimentValue = nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
-
-                _gameManager.UpdateEnergy(absorbedNutrimentValue);
-            }
         }
 
         protected void OnCollisionEnter2D(Collision2D other)
@@ -217,18 +206,6 @@ namespace Racines
                 elapsedTime += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
-        }
-
-        public void AddNutriment(Nutriment other)
-        {
-            var newNutriment = other.GetComponent<Nutriment>();
-            _nutrimentsInContact.Add(newNutriment);
-        }
-        
-        public void RemoveNutriment(Nutriment other)
-        {
-            var oldNutriment = other.GetComponent<Nutriment>();
-            _nutrimentsInContact.Remove(oldNutriment);
         }
     }
 }
