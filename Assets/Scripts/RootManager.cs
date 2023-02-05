@@ -30,20 +30,5 @@ namespace Racines
         public float RootCurveLengthPercernt;
 
         public int RootCurveSegments;
-
-        private static RootManager _instance;
-
-        public static RootManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = GameObject.FindObjectOfType<RootManager>();
-                }
-
-                return _instance;
-            }
-        }
     }
 }

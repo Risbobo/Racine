@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _depth: 0
   _maxDepth: 4
+  _rootManager: {fileID: 1943742119}
   _shapePrefab: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
   _calyptraPrefab: {fileID: 6319498608059453381, guid: bad34ee35f888bd4f8b7b61b36b974e2, type: 3}
   _growthDirection: {x: 0, y: 0, z: 0}
@@ -456,5 +457,5 @@ MonoBehaviour:
   directionalPullStrength: 0.8
   splitSurvivalRatio: 0.5
   maxFirstAngle: 30
-  RootCurveLengthPercernt: 0.3
+  RootCurveLengthPercernt: 0.4
   RootCurveSegments: 6

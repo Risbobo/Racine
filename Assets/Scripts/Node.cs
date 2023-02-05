@@ -13,9 +13,11 @@ namespace Racines
         public float Length => _length;
 
         public Node Parent => _parent;
+        public RootManager RootManager => _rootManager;
 
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
+        [SerializeField] private RootManager _rootManager;
         [SerializeField] private GameObject _shapePrefab;
         [SerializeField] private Calyptra _calyptraPrefab;
         
@@ -32,7 +34,7 @@ namespace Racines
 
         protected void Start()
         {
-            _width = RootManager.Instance.initialWidth;
+            _width = _rootManager.initialWidth;
             _sproutRoutine = StartCoroutine(Sprout());
         }
 
@@ -52,7 +54,7 @@ namespace Racines
                 return;
             }
             var node = other.collider.GetComponent<Node>();
-            if (node != null && (_parent == null || node == _parent || _parent.Children.Contains(node) || RootManager.Instance.selfCollide))
+            if (node != null && (_parent == null || node == _parent || _parent.Children.Contains(node) || _rootManager.selfCollide))
             {
                 return;
             }
@@ -65,7 +67,7 @@ namespace Racines
 
             _growthDirection = growthParams.growthDirection;
             _probabilityToSpawn = 1f;
-            _maxDepth = _depth + RootManager.Instance.depthIncrement;
+            _maxDepth = _depth + _rootManager.depthIncrement;
             Grow();
         }
 
@@ -86,9 +88,9 @@ namespace Racines
         private IEnumerator Sprout()
         {
             float elapsedTime = 0f;
-            float finalLength = Utils.RandomFromGaussion(mean: RootManager.Instance.meanSproutLength,
-                                               sigma: RootManager.Instance.sproutLengthSigma);
-            float timeToGrow = RootManager.Instance.timeToGrowSprout;
+            float finalLength = Utils.RandomFromGaussion(mean: _rootManager.meanSproutLength,
+                                               sigma: _rootManager.sproutLengthSigma);
+            float timeToGrow = _rootManager.timeToGrowSprout;
             while (elapsedTime < timeToGrow)
             {
                 _length = Mathf.Lerp(0f, finalLength, elapsedTime / timeToGrow);
@@ -126,15 +128,15 @@ namespace Racines
 
         private void CreateChildren()
         {
-            float angle = Random.Range(-RootManager.Instance.maxFirstAngle, RootManager.Instance.maxFirstAngle);
+            float angle = Random.Range(-_rootManager.maxFirstAngle, _rootManager.maxFirstAngle);
             CreateChild(angle, isSplit: false);
             
-            bool isSplit = Random.Range(0f, 1f) < RootManager.Instance.splitProbability;
+            bool isSplit = Random.Range(0f, 1f) < _rootManager.splitProbability;
 
             if (isSplit)
             {
                 var direction = Mathf.Sign(Random.Range(-1f, 1f));
-                float splitAngle = Random.Range(RootManager.Instance.minFanAngle, RootManager.Instance.maxFanAngle);
+                float splitAngle = Random.Range(_rootManager.minFanAngle, _rootManager.maxFanAngle);
                 CreateChild(angle + direction * splitAngle, isSplit: true);
             }
         }
@@ -146,17 +148,13 @@ namespace Racines
             Children.Add(child);
         }
         
-        private static float GetFanAngle()
-        {
-            return Random.Range(RootManager.Instance.minFanAngle, RootManager.Instance.maxFanAngle);
-        }
-        
         private void Initialize(Node parent, float angle, bool isSplit)
         {
             _parent = parent;
 
             _shapePrefab = parent._shapePrefab;
             _calyptraPrefab = parent._calyptraPrefab;
+            _rootManager = parent._rootManager;
             _growthDirection = parent._growthDirection;
             _probabilityToSpawn = parent._probabilityToSpawn;
             _maxDepth = parent._maxDepth;
@@ -165,7 +163,7 @@ namespace Racines
             // Split branches are more short-lived
             if (isSplit)
             {
-                _probabilityToSpawn *= RootManager.Instance.splitSurvivalRatio;
+                _probabilityToSpawn *= _rootManager.splitSurvivalRatio;
             }
             
             transform.position = parent.GetTipPosition();
@@ -178,7 +176,7 @@ namespace Racines
         {
             var rotationWithoutPull = Quaternion.AngleAxis(angle, Vector3.forward) * _parent.transform.rotation;
             var directionWithoutPull = rotationWithoutPull * Vector3.up;
-            float alpha = RootManager.Instance.directionalPullStrength;
+            float alpha = _rootManager.directionalPullStrength;
             var direction = alpha * _growthDirection + (1 - alpha) * directionWithoutPull;
             return Quaternion.FromToRotation(Vector3.up, direction);
         }
@@ -195,8 +193,8 @@ namespace Racines
             
             float elapsedTime = 0f;
             float oldWidth = _width;
-            float newWidth = Mathf.Sqrt(_width * _width + RootManager.Instance.initialWidth * RootManager.Instance.initialWidth);
-            float timeToGrow = RootManager.Instance.timeToGrowSprout;
+            float newWidth = Mathf.Sqrt(_width * _width + _rootManager.initialWidth * _rootManager.initialWidth);
+            float timeToGrow = _rootManager.timeToGrowSprout;
             while (elapsedTime < timeToGrow)
             {
                 _width = Mathf.Lerp(oldWidth, newWidth, elapsedTime / timeToGrow);
