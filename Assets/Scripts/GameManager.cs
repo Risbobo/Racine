@@ -77,6 +77,7 @@ namespace Racines
                 //If R is pressed: restart the game
                 if (Input.GetKeyDown(KeyCode.R))
                 {
+                    Time.timeScale = 1;
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }
                 //If Q is pressed: exit the game
