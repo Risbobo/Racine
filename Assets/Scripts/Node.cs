@@ -74,12 +74,7 @@ namespace Racines
             _probabilityToSpawn = 1f;
             _maxDepth = _depth + _rootManager.depthIncrement;
             Grow();
-
-            // check if there are still active ends in the Game. If not: Game Over
-            if (GameObject.FindObjectOfType<Calyptra>() == null)
-            {
-                _gameManager.GameOver(1);
-            }
+            
         }
 
         public Vector3 GetRootPosition()
@@ -123,6 +118,7 @@ namespace Racines
             {
                 CreateCalyptra();
             }
+
         }
 
         private void CreateCalyptra()
@@ -134,6 +130,7 @@ namespace Racines
         private void DestroyCalyptra()
         {
             _calyptra.SignalGrowth -= OnCalyptraGrowthSignal;
+            _gameManager.calyptraList.Remove(_calyptra);
             Destroy(_calyptra.gameObject);
         }
 
@@ -150,6 +147,7 @@ namespace Racines
                 float splitAngle = Random.Range(_rootManager.minFanAngle, _rootManager.maxFanAngle);
                 CreateChild(angle + direction * splitAngle, isSplit: true);
             }
+
         }
 
         private void CreateChild(float angle, bool isSplit)
@@ -162,6 +160,7 @@ namespace Racines
             // Increase the score and decrease the energy for each new Node
             _gameManager.UpdateScore(1);
             _gameManager.UpdateEnergy(-1);
+
         }
         
         private void Initialize(Node parent, float angle, bool isSplit)

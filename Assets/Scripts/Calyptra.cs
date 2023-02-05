@@ -26,6 +26,7 @@ namespace Racines
             _arrow = Arrow.Instance;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             SetSpriteAlpha(0f, 0f);
+            GameManager.Instance.calyptraList.Add(this);
         }
 
         private void SetSpriteAlpha(float alpha, float animationTime)
@@ -57,42 +58,67 @@ namespace Racines
 
         private void OnMouseEnter()
         {
+            if (!GameManager.Instance.isGameOver)
+            {
+                highlightCalyptra();
+            }
+        }
+
+        private void OnMouseExit()
+        {
+            if (!GameManager.Instance.isGameOver)
+            {
+                deHighlightCalyptra();
+            }
+        }
+
+        private void OnMouseDown()
+        {
+            if (!GameManager.Instance.isGameOver)
+            {
+                 _mouseDown = true;
+                // "Hack" so that if we just click on the Calyptra, it sends the position
+                _arrow.ShowArrow(transform.position);
+            }
+        }
+
+        private void OnMouseDrag()
+        {
+            if (!GameManager.Instance.isGameOver)
+            {
+                _arrow.MutateArrow();
+            }
+        }
+
+        private void OnMouseUp()
+        {
+            if (!GameManager.Instance.isGameOver)
+            {
+                _mouseDown = false;
+                if (_arrow.IsArrowActive)
+                {
+                    SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction });
+                    _arrow.HideArrow();
+                }
+            }
+        }
+
+        public void highlightCalyptra()
+        {
             _arrow.HideArrow();
             SetSpriteAlpha(1f, 0.1f);
             transform.localScale *= HoverScaleFactor;
         }
 
-        private void OnMouseExit()
+        public void deHighlightCalyptra()
         {
             if (_mouseDown)
             {
                 _arrow.ShowArrow(transform.position);
             }
-            
+
             SetSpriteAlpha(0f, 0.1f);
             transform.localScale /= HoverScaleFactor;
-        }
-
-        private void OnMouseDown()
-        {
-            _mouseDown = true;
-            // "Hack" so that if we just click on the Calyptra, it sends the position
-            _arrow.ShowArrow(transform.position);
-        }
-
-        private void OnMouseDrag()
-        {
-            _arrow.MutateArrow();
-        }
-
-        private void OnMouseUp()
-        {
-            _mouseDown = false;
-            if (_arrow.IsArrowActive)
-            {
-                SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction }); 
-                _arrow.HideArrow();
-            }
         }
     }
 }
