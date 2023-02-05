@@ -60,6 +60,7 @@ namespace Racines
             {
                 return;
             }
+
             StopCoroutine(_sproutRoutine);
         }
 
