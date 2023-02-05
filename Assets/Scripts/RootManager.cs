@@ -28,6 +28,8 @@ namespace Racines
         public float meanSproutLength;
         public float sproutLengthSigma;
 
+        public bool selfCollide;
+
         private static RootManager _instance;
 
         public static RootManager Instance

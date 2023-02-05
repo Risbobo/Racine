@@ -21,6 +21,7 @@ namespace Racines
         
         private Calyptra _calyptra;
         private Node _parent;
+        private Coroutine _sproutRoutine;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
         
         private float _width;
@@ -30,7 +31,7 @@ namespace Racines
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
-            StartCoroutine(Sprout());
+            _sproutRoutine = StartCoroutine(Sprout());
         }
 
         protected void Update()
@@ -39,6 +40,21 @@ namespace Racines
             {
                 nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
             }
+        }
+
+        protected void OnCollisionEnter2D(Collision2D other)
+        {
+            var calyptra = other.collider.GetComponent<Calyptra>();
+            if (calyptra != null)
+            {
+                return;
+            }
+            var node = other.collider.GetComponent<Node>();
+            if (node != null && (_parent == null || node == _parent || _parent.Children.Contains(node) || RootManager.Instance.selfCollide))
+            {
+                return;
+            }
+            StopCoroutine(_sproutRoutine);
         }
 
         private void OnCalyptraClicked()

@@ -41,7 +41,7 @@ public class Nutriment : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         var node = other.GetComponent<Node>();
-        if (node ==null)
+        if (node == null)
         {
             return;
         }
