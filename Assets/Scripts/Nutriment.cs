@@ -47,13 +47,18 @@ public class Nutriment : MonoBehaviour
         }
         node.RemoveNutriment(gameObject.GetComponent<Nutriment>());
     }
-    public void isAbsorbed(float width)
+    public float isAbsorbed(float width)
     {
-        _nutriment -= _absorbFactor * width;
+        float absorbedNutrimentValue = _absorbFactor * width;
+
+        _nutriment -= absorbedNutrimentValue;
         transform.localScale = _nutriment / 100f * Vector3.one;
+
         if (_nutriment <= 0)
         {
             _isDead = true;
         }
+
+        return absorbedNutrimentValue;
     }
 }
