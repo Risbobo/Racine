@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 837376443}
     m_Modifications:
+    - target: {fileID: 1326551182121063520, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
+      propertyPath: intoParent
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6323260252550839736, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -452,3 +456,4 @@ MonoBehaviour:
   timeToGrowSprout: 1
   meanSproutLength: 1
   sproutLengthSigma: 0.4
+  selfCollide: 0

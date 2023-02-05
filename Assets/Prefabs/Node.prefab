@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c205702a9c240baaab5e6ab18251418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intoParent: 0.1
+  intoParent: 0.2
+  curveSegments: 10
 --- !u!1 &7455157183041288032
 GameObject:
   m_ObjectHideFlags: 0
