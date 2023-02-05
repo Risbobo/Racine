@@ -14,9 +14,11 @@ namespace Racines
         public event Action Clicked = delegate { };
 
         public Arrow _arrow;
+        private bool _mouseDown;
 
         protected void Start()
         {
+            _arrow = Arrow.Instance;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             SetSpriteAlpha(0f, 0f);
         }
@@ -50,45 +52,42 @@ namespace Racines
 
         private void OnMouseEnter()
         {
+            _arrow.HideArrow();
             SetSpriteAlpha(1f, 0.1f);
             transform.localScale *= HoverScaleFactor;
         }
 
         private void OnMouseExit()
         {
+            if (_mouseDown)
+            {
+                _arrow.ShowArrow(transform.position);
+            }
+            
             SetSpriteAlpha(0f, 0.1f);
             transform.localScale /= HoverScaleFactor;
         }
 
         private void OnMouseDown()
         {
-            GameObject arrowObject = GameObject.FindWithTag("ArrowManager");
-
-            if (arrowObject != null)
-            {
-                _arrow = arrowObject.GetComponent<Arrow>();
-                _arrow.ActivateArrow(transform.position);
-            }
+            _mouseDown = true;
+            // "Hack" so that if we just click on the Calyptra, it sends the position
+            _arrow.ShowArrow(transform.position);
         }
 
         private void OnMouseDrag()
         {
-            if (_arrow != null)
-            {
-                _arrow.MutateArrow();
-            }
+            _arrow.MutateArrow();
         }
 
         private void OnMouseUp()
         {
-
-            if (_arrow != null)
+            _mouseDown = false;
+            if (_arrow.IsArrowActive)
             {
-                _arrow.DeactivateArrow();
-                _arrow = null;
+                _arrow.HideArrow();
+                Clicked(); 
             }
-
-            Clicked();
         }
     }
 }

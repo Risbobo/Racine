@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _arrowPrefab: {fileID: 2805554304264250102}
   _shaft: {fileID: 4463363151905986886}
+  _arrowhead: {fileID: 2805554304170823589}
+  _maxSizeArrow: 1
 --- !u!1 &2805554303625687096
 GameObject:
   m_ObjectHideFlags: 0

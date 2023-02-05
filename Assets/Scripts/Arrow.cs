@@ -11,6 +11,25 @@ namespace Racines
         [SerializeField] private float _maxSizeArrow = 2.5f;
 
         private Vector3 _scaleShaftOrigin;
+        
+        private static Arrow _instance;
+
+        public bool IsArrowActive => _arrowPrefab.activeSelf;
+
+        private float ArrowLength { get; set; }
+
+        public static Arrow Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = GameObject.FindObjectOfType<Arrow>();
+                }
+
+                return _instance;
+            }
+        }
 
         private void Start()
         {
@@ -18,12 +37,18 @@ namespace Racines
             _arrowPrefab.SetActive(false);
         }
 
-        public void ActivateArrow(Vector3 position)
+        public void ShowArrow(Vector3 position)
         {
             _arrowPrefab.SetActive(true);
             _arrowPrefab.transform.position = position;
             MutateArrow();
         }
+        
+        public void HideArrow()
+        {
+            _arrowPrefab.SetActive(false);
+        }
+
 
         //Modify the arrow (rotation, length) depending on the mouse position
         public void MutateArrow()
@@ -38,19 +63,14 @@ namespace Racines
             _arrowPrefab.transform.right = mousePoint2D - arrowPoint2D;
 
             //scale up the Arrow in function of the distance of the mouse
-            float distance = Vector2.Distance(arrowPoint2D, mousePoint2D);
-            if (distance > _maxSizeArrow)
+            ArrowLength = Vector2.Distance(arrowPoint2D, mousePoint2D);
+            if (ArrowLength > _maxSizeArrow)
             {
-                distance = _maxSizeArrow;
+                ArrowLength = _maxSizeArrow;
             }
 
-            _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, distance, _scaleShaftOrigin.z);
+            _shaft.transform.localScale = new Vector3(_scaleShaftOrigin.x, ArrowLength, _scaleShaftOrigin.z);
             _arrowhead.transform.position = Vector2.MoveTowards(arrowPoint2D, mousePoint2D, _maxSizeArrow);
-        }
-
-        public void DeactivateArrow()
-        {
-            _arrowPrefab.SetActive(false);
         }
 
         //Get the mouse position from the screen to the Game POV
