@@ -8,6 +8,7 @@ namespace Racines
         private LineRenderer _lineRenderer;
         private Node _node;
         private PolygonCollider2D _collider;
+
         private RootManager _rootManager;
 
         private float intoParent;
@@ -18,7 +19,9 @@ namespace Racines
             _lineRenderer = GetComponent<LineRenderer>();
             _node = GetComponentInParent<Node>();
             _collider = GetComponentInParent<PolygonCollider2D>();
+
             _rootManager = _node.RootManager;
+
             intoParent = _rootManager.RootCurveLengthPercernt;
             curveSegments = _rootManager.RootCurveSegments;
         }
