@@ -17,7 +17,7 @@ public class Nutriment : MonoBehaviour
     {
         _nutriment = Random.Range(20f, 100f);
         //_nutriment = 100f;
-        transform.localScale = _nutriment / 100f * Vector3.one;
+        transform.localScale = _nutriment / 60f * Vector3.one;
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -37,7 +37,7 @@ public class Nutriment : MonoBehaviour
         float absorbedNutrimentValue = _absorbFactor * width;
 
         _nutriment -= absorbedNutrimentValue;
-        transform.localScale = _nutriment / 100f * Vector3.one;
+        transform.localScale = _nutriment / 60f * Vector3.one;
 
         if (_nutriment <= 0)
         {
