@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Racines
 {
-    [RequireComponent(typeof(PolygonCollider2D))]
     public class RootLine : MonoBehaviour
     {
         private LineRenderer _lineRenderer;
@@ -16,7 +15,7 @@ namespace Racines
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _node = GetComponentInParent<Node>();
-            _collider = GetComponent<PolygonCollider2D>();
+            _collider = GetComponentInParent<PolygonCollider2D>();
         }
 
         protected void Update()
