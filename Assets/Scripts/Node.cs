@@ -10,7 +10,10 @@ namespace Racines
     {
         public List<Node> Children { get; } = new List<Node>();
         public float Width => _width;
-        
+        public float Length => _length;
+
+        public Node Parent => _parent;
+
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private GameObject _shapePrefab;
