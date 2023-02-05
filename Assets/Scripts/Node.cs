@@ -23,6 +23,8 @@ namespace Racines
         private Node _parent;
         private Coroutine _sproutRoutine;
         private List<Nutriment> _nutrimentsInContact = new List<Nutriment>();
+
+        public ScoreManager _scoreManager;
         
         private float _width;
         private float _length;
@@ -31,14 +33,18 @@ namespace Racines
         protected void Start()
         {
             _width = RootManager.Instance.initialWidth;
-            _sproutRoutine = StartCoroutine(Sprout());
+            _scoreManager = ScoreManager.Instance;
+            
+            StartCoroutine(Sprout());
         }
 
         protected void Update()
         {
             foreach (var nutriment in _nutrimentsInContact)
             {
-                nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
+                float absorbedNutrimentValue = nutriment.GetComponent<Nutriment>().isAbsorbed(_width);
+
+                _scoreManager.UpdateEnergy(absorbedNutrimentValue);
             }
         }
 
@@ -64,6 +70,10 @@ namespace Racines
 
             _maxDepth = _depth + RootManager.Instance.depthIncrement;
             Grow(mustHaveChildren: true);
+
+            // check if there are still active ends in the Game
+            //TODO GAMEOVER
+            var areActiveEnds = GameObject.FindObjectOfType<Calyptra>();
         }
 
         public Vector3 GetRootPosition()
@@ -140,9 +150,14 @@ namespace Racines
 
         private void CreateChild(float angle)
         {
+            
             Node child = Instantiate(_shapePrefab).AddComponent<Node>();
             child.Initialize(this, angle);
             Children.Add(child);
+
+            // Increase the score and decrease the energy for each new Node
+            _scoreManager.UpdateScore(1);
+            _scoreManager.UpdateEnergy(-1);
         }
         
         private static float GetFanAngle()
@@ -161,7 +176,7 @@ namespace Racines
             _calyptraPrefab = parent._calyptraPrefab;
             _maxDepth = parent._maxDepth;
             _depth = parent._depth + 1;
-            
+
             StartCoroutine(parent.Widen());
         }
         
