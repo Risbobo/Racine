@@ -108,6 +108,7 @@ namespace Racines
 
         public void UpdateEnergy(float energyIncrement)
         {
+            // Calculate the new energy levels
             if (energyIncrement > 0)
             {
                 _energyValue += energyIncrement * _energyGainFactor;
@@ -116,7 +117,7 @@ namespace Racines
             {
                 _energyValue += energyIncrement * _energyDepletionFactor;
             }
-
+            // Update the size of the energy bar
             if (_energyValue > 0)
             {
                 _sizeEnergyBar += energyIncrement;
@@ -129,7 +130,6 @@ namespace Racines
                 DrawBoard();
                 GameOver(0);
             }
-
         }
 
         public void GameOver(int codeGameOver)

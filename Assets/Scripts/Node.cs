@@ -94,6 +94,10 @@ namespace Racines
             {
                 _length = Mathf.Lerp(0f, finalLength, elapsedTime / timeToGrow);
                 elapsedTime += Time.deltaTime;
+
+                // Decrease the energy for each new Node while it grows
+                GameManager g = GameManager.Instance;
+
                 yield return new WaitForEndOfFrame();
             }
 
@@ -149,10 +153,8 @@ namespace Racines
             child.Initialize(this, angle, isSplit);
             Children.Add(child);
 
-            // Increase the score and decrease the energy for each new Node
+            // Increase the score for each new Node
             _gameManager.UpdateScore(1);
-            _gameManager.UpdateEnergy(-1);
-
         }
         
         private void Initialize(Node parent, float angle, bool isSplit)

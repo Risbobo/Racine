@@ -64,7 +64,7 @@ namespace Racines
 
         private void OnMouseEnter()
         {
-            if (!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                 HighlightCalyptra();
             }
@@ -72,7 +72,7 @@ namespace Racines
 
         private void OnMouseExit()
         {
-            if (!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                 DeHighlightCalyptra();
             }
@@ -80,7 +80,7 @@ namespace Racines
 
         private void OnMouseDown()
         {
-            if (!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                  _mouseDown = true;
                 // "Hack" so that if we just click on the Calyptra, it sends the position
@@ -90,7 +90,7 @@ namespace Racines
 
         private void OnMouseDrag()
         {
-            if (!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver && _arrow.IsArrowActive)
             {
                 _arrow.MutateArrow();
             }
@@ -98,14 +98,11 @@ namespace Racines
 
         private void OnMouseUp()
         {
-            if (!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver && _arrow.IsArrowActive)
             {
                 _mouseDown = false;
-                if (_arrow.IsArrowActive)
-                {
-                    SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction });
-                    _arrow.HideArrow();
-                }
+                SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction });
+                _arrow.HideArrow();
             }
         }
 

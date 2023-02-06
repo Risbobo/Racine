@@ -8,10 +8,7 @@ public class Nutrient : MonoBehaviour
 
     void Start()
     {
-        if (GetComponent<CircleCollider2D>().IsTouchingLayers())
-                {
-                    print("Aouch start");
-        }
+
     }
 
     public void Initialize(float nutrientValue, float nutrientSize)
