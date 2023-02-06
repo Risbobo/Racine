@@ -108,7 +108,6 @@ namespace Racines
             {
                 _energyValue += energyIncrement * _energyGainFactor;
             }
-
             else
             {
                 _energyValue += energyIncrement * _energyDepletionFactor;
