@@ -66,7 +66,6 @@ namespace Racines
 
         private void Update()
         {
-
             if (Input.GetKeyDown(KeyCode.LeftShift) && !isGameOver)
             {
                 HighlightAllCalyptra();
@@ -190,7 +189,7 @@ namespace Racines
             }
         }
 
-        public Vector2 GetRandomGroundPosition(Vector2 boundaries = default)
+        public Vector3 GetRandomGroundPosition(Vector2 boundaries = default)
         {
             Vector3 groundCenter = _sceneGround.bounds.center;
             Vector3 groundExtents = _sceneGround.bounds.extents;
@@ -204,7 +203,7 @@ namespace Racines
             float x = Random.Range(minGroundX, maxGroundX);
             float y = Random.Range(minGroundY, maxGroundY);
 
-            return new Vector2(x, y);
+            return new Vector3(x, y, 0);
         }
     }
 }

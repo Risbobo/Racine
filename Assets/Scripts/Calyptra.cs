@@ -60,6 +60,8 @@ namespace Racines
                 timeElapsed += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
+
+            color.a = targetAlpha;
         }
 
         private void OnMouseEnter()

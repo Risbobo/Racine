@@ -3,18 +3,17 @@ using UnityEngine;
 
 public class Nutrient : MonoBehaviour
 {
-    [SerializeField] private float _nutrient;
-    [SerializeField] private float _absorbFactor = 0.1f;
-
-    void Start()
+    private float _absorbFactor;
+    private float _nutrient;
+    
+    public bool Initialize(Vector3 position, float nutrientValue, float nutrientSize, float nutrientAbsorbFactor)
     {
-
-    }
-
-    public void Initialize(float nutrientValue, float nutrientSize)
-    {
+        transform.position = position;
         _nutrient = nutrientValue;
         transform.localScale = nutrientSize* Vector3.one;
+        _absorbFactor = nutrientAbsorbFactor;
+
+        return true;
     }
 
     private void OnTriggerStay2D(Collider2D other)

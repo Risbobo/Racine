@@ -7,6 +7,7 @@ namespace Racines
     public class NutrientManager : MonoBehaviour
     {
         [SerializeField] private Nutrient _nutrientPrefab;
+        [SerializeField] private float _nutrientAbsorbFactor;
 
         private GameManager _gameManager;
 
@@ -31,14 +32,12 @@ namespace Racines
                 // Set nutrient value and size
                 float nutrientValue = Random.Range(20f, 100f);
                 float nutrientSize = nutrientValue / 60f;
-                newNutrient.Initialize(nutrientValue, nutrientSize);
+                newNutrient.Initialize(_gameManager.GetRandomGroundPosition(new Vector2(nutrientSize, nutrientSize)), nutrientValue, nutrientSize, _nutrientAbsorbFactor);
 
-                // Set position (Check for collision with rock and other nutrient)
-                newNutrient.transform.position = _gameManager.GetRandomGroundPosition(new Vector2(nutrientSize, nutrientSize));
-
-                if (newNutrient.GetComponent<CircleCollider2D>().IsTouchingLayers(0))
+                // Check for collision with rock and other nutrient
+                if (Physics2D.IsTouchingLayers(newNutrient.GetComponent<CircleCollider2D>()))
                 {
-                    print("Aouch");
+                    print("Collide");
                 }
 
                 // Add to the nutrient list
