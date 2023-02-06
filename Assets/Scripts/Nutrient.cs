@@ -1,25 +1,29 @@
 using Racines;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Nutrient : MonoBehaviour
 {
     [SerializeField] private float _nutrient;
-
     [SerializeField] private float _absorbFactor = 0.1f;
 
-    //private bool _isDead = false;
-    // Start is called before the first frame update
     void Start()
     {
-        _nutrient = Random.Range(20f, 100f);
-        //_nutrient = 100f;
-        transform.localScale = _nutrient / 60f * Vector3.one;
+        if (GetComponent<CircleCollider2D>().IsTouchingLayers())
+                {
+                    print("Aouch start");
+        }
+    }
+
+    public void Initialize(float nutrientValue, float nutrientSize)
+    {
+        _nutrient = nutrientValue;
+        transform.localScale = nutrientSize* Vector3.one;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
         var node = other.GetComponent<Node>();
+
         if (node == null)
         {
             return;
@@ -29,7 +33,8 @@ public class Nutrient : MonoBehaviour
         var energy = IsAbsorbed(rate);
         GameManager.Instance.UpdateEnergy(energy);
     }
-    public float IsAbsorbed(float width)
+
+    private float IsAbsorbed(float width)
     {
         float absorbedNutrientValue = _absorbFactor * width;
 
@@ -38,6 +43,7 @@ public class Nutrient : MonoBehaviour
 
         if (_nutrient <= 0)
         {
+            absorbedNutrientValue += _nutrient; // To avoid getting more nutrient than is possible (_nutrient < 0 case)
             Destroy(gameObject);
         }
 

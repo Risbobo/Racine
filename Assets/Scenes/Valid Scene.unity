@@ -930,6 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nutrientPrefab: {fileID: -3584241062259796261, guid: 71fd9ca7b4d2a3f43a889ce44683a1c3, type: 3}
+  nutrientNum: 15
   nutrientDistributionDensity: 0
   nutrientDistributionDensityHomogeneity: 0
   nutrientSizeHomogeneity: 0
@@ -1671,7 +1672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513357321}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.8460145, y: -3.2869859, z: 1}
+  m_LocalPosition: {x: -2.8460145, y: -3.2869859, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2860,11 +2861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8867622297228718490, guid: 71fd9ca7b4d2a3f43a889ce44683a1c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.07
+      value: -13.72
       objectReference: {fileID: 0}
     - target: {fileID: 8867622297228718490, guid: 71fd9ca7b4d2a3f43a889ce44683a1c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.14
+      value: 2.89
       objectReference: {fileID: 0}
     - target: {fileID: 8867622297228718490, guid: 71fd9ca7b4d2a3f43a889ce44683a1c3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3243,7 +3244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1286467211
 Transform:
   m_ObjectHideFlags: 0
@@ -3850,11 +3851,13 @@ MonoBehaviour:
   _gameOverReasonText: {fileID: 1041308122}
   _ReplayText: {fileID: 1953116978}
   _gameOverPanel: {fileID: 1693742760}
+  _sceneGround: {fileID: 513357322}
   _energyInitial: 100
   _energyDepletionFactor: 1.2
   _energyGainFactor: 0.8
   isGameOver: 0
   calyptraList: []
+  nutrientList: []
 --- !u!1001 &1511970928
 PrefabInstance:
   m_ObjectHideFlags: 0

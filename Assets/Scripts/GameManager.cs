@@ -16,6 +16,7 @@ namespace Racines
         [SerializeField] private TextMeshProUGUI _gameOverReasonText;
         [SerializeField] private TextMeshProUGUI _ReplayText;
         [SerializeField] private GameObject _gameOverPanel;
+        [SerializeField] private SpriteRenderer _sceneGround;
         [SerializeField] private float _energyInitial = 100;
 
         [SerializeField] private float _energyDepletionFactor = 1;
@@ -30,6 +31,7 @@ namespace Racines
         public bool isGameOver = false;
 
         public List<Calyptra> calyptraList;
+        public List<Nutrient> nutrientList;
 
         private static GameManager _instance;
 
@@ -185,6 +187,23 @@ namespace Racines
             {
                 ical.DeHighlightCalyptra();
             }
+        }
+
+        public Vector2 GetRandomGroundPosition(Vector2 boundaries = default)
+        {
+            Vector3 groundCenter = _sceneGround.bounds.center;
+            Vector3 groundExtents = _sceneGround.bounds.extents;
+
+            float maxGroundX = groundCenter.x + groundExtents.x - boundaries.x;
+            float minGroundX = groundCenter.x - groundExtents.x + boundaries.x;
+
+            float maxGroundY = groundCenter.y + groundExtents.y - boundaries.y;
+            float minGroundY = groundCenter.y - groundExtents.y + boundaries.y;
+
+            float x = Random.Range(minGroundX, maxGroundX);
+            float y = Random.Range(minGroundY, maxGroundY);
+
+            return new Vector2(x, y);
         }
     }
 }
