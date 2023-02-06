@@ -66,7 +66,7 @@ namespace Racines
         {
             if (!GameManager.Instance.isGameOver)
             {
-                highlightCalyptra();
+                HighlightCalyptra();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Racines
         {
             if (!GameManager.Instance.isGameOver)
             {
-                deHighlightCalyptra();
+                DeHighlightCalyptra();
             }
         }
 
@@ -109,14 +109,14 @@ namespace Racines
             }
         }
 
-        public void highlightCalyptra()
+        public void HighlightCalyptra()
         {
             _arrow.HideArrow();
             SetSpriteAlpha(1f, 0.1f);
             transform.localScale = _hoverScaleVector;
         }
 
-        public void deHighlightCalyptra()
+        public void DeHighlightCalyptra()
         {
             if (_mouseDown)
             {

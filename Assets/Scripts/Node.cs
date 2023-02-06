@@ -174,8 +174,7 @@ namespace Racines
                 _pullStrength *= _rootManager.splitPullStrengthRatio;
             }
             
-            transform.position = parent.GetTipPosition();
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward) * parent.transform.rotation;
+            transform.SetPositionAndRotation(parent.GetTipPosition(), Quaternion.AngleAxis(angle, Vector3.forward) * parent.transform.rotation);
             
             StartCoroutine(parent.Widen());
         }

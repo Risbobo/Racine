@@ -9,6 +9,8 @@ namespace Racines
 {
     public class GameManager : MonoBehaviour
     {
+        public float mapMinX, mapMaxX, mapMinY, mapMaxY;
+
         [SerializeField] private GameObject _energyBar;
         [SerializeField] private TextMeshProUGUI _gameOverText;
         [SerializeField] private TextMeshProUGUI _gameOverReasonText;
@@ -63,12 +65,12 @@ namespace Racines
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && !isGameOver)
             {
-                highlightAllCalyptra();
+                HighlightAllCalyptra();
             }
 
             else if (Input.GetKeyUp(KeyCode.LeftShift) && !isGameOver)
             {
-                deHighlightAllCalyptra();
+                DeHighlightAllCalyptra();
             }
 
             else if (Input.GetKeyDown(KeyCode.Q) && !isGameOver)
@@ -115,7 +117,7 @@ namespace Racines
 
             if (_energyValue > 0)
             {
-                _sizeEnergyBar = _sizeEnergyBar  + energyIncrement;
+                _sizeEnergyBar += energyIncrement;
                 DrawBoard();
             }
             else
@@ -133,20 +135,12 @@ namespace Racines
             if (!isGameOver)
             {
 
-                switch (codeGameOver)
+                _gameOverReasonText.text = codeGameOver switch
                 {
-                    case 0:
-                        _gameOverReasonText.text = "No energy left";
-                        break;
-
-                    case 1:
-                        _gameOverReasonText.text = "No active Calyptra left";
-                        break;
-
-                    default:
-                        _gameOverReasonText.text = "You just suck I guess...";
-                        break;
-                }
+                    0 => "No energy left",
+                    1 => "No active Calyptra left",
+                    _ => "You just suck I guess...",
+                };
 
                 isGameOver = true;
                 // Pauses the game
@@ -168,7 +162,7 @@ namespace Racines
         }
 
         // check if there are still active ends in the Game. If not: Game Over
-        public void checkCalyptraExists()
+        public void CheckCalyptraExists()
         {
             //If calypra list is empty
             if (!calyptraList.Any())
@@ -177,19 +171,19 @@ namespace Racines
             }
         }
 
-        private void highlightAllCalyptra()
+        private void HighlightAllCalyptra()
         {
             foreach (var ical in calyptraList)
             {
-                ical.highlightCalyptra();
+                ical.HighlightCalyptra();
             }
         }
 
-        private void deHighlightAllCalyptra()
+        private void DeHighlightAllCalyptra()
         {
             foreach (var ical in calyptraList)
             {
-                ical.deHighlightCalyptra();
+                ical.DeHighlightCalyptra();
             }
         }
     }

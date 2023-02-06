@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
 using Racines;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
@@ -16,11 +12,10 @@ public class CameraBehavior : MonoBehaviour
     [SerializeField] private float _zoomScale = 1f;
 
     //[SerializeField] private float _mapViewOffset = 2f;
-
-    [SerializeField] private float _mapMinX, _mapMaxX, _mapMinY, _mapMaxY;
+    [SerializeField] private GameManager _gameManager;
 
     //[SerializeField] private Map _map;
-    
+
     void Start()
     {
         _thisCamera = GetComponent<Camera>();
@@ -71,11 +66,11 @@ public class CameraBehavior : MonoBehaviour
 
         //float camHeight = 0f;
         //float camWidth = 0f;
-        
-        float minX = _mapMinX + camWidth;
-        float maxX = _mapMaxX - camWidth;
-        float minY = _mapMinY + camHeight;
-        float maxY = _mapMaxY - camHeight;
+
+        float minX = _gameManager.mapMinX + camWidth;
+        float maxX = _gameManager.mapMaxX - camWidth;
+        float minY = _gameManager.mapMinY + camHeight;
+        float maxY = _gameManager.mapMaxY - camHeight;
 
         float newX = Mathf.Clamp(targetPosition.x, minX, maxX);
         float newY = Mathf.Clamp(targetPosition.y, minY, maxY);
