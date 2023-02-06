@@ -22,10 +22,12 @@ namespace Racines
         [SerializeField] private float _energyDepletionFactor = 1;
         [SerializeField] private float _energyGainFactor = 1;
 
-        private static float _scoreValue;
-        private static float _energyValue;
+        public float nodeGrowCost = 0.05f;
 
-        private static Vector3 _energyBarScale;
+        public float scoreValue;
+        public float energyValue;
+
+        private Vector3 _energyBarScale;
         private float _sizeEnergyBar;
 
         public bool isGameOver = false;
@@ -50,8 +52,8 @@ namespace Racines
 
         private void Start()
         {
-            _scoreValue = 0;
-            _energyValue = _energyInitial;
+            scoreValue = 0;
+            energyValue = _energyInitial;
             _sizeEnergyBar = _energyInitial;
             _gameOverPanel.SetActive(false);
             _gameOverReasonText.gameObject.SetActive(false);
@@ -102,8 +104,7 @@ namespace Racines
 
         public void UpdateScore(float scoreIncrement)
         {
-            _scoreValue += scoreIncrement;
-            DrawBoard();
+            scoreValue += scoreIncrement;
         }
 
         public void UpdateEnergy(float energyIncrement)
@@ -111,21 +112,21 @@ namespace Racines
             // Calculate the new energy levels
             if (energyIncrement > 0)
             {
-                _energyValue += energyIncrement * _energyGainFactor;
+                energyValue += energyIncrement * _energyGainFactor;
             }
             else
             {
-                _energyValue += energyIncrement * _energyDepletionFactor;
+                energyValue += energyIncrement * _energyDepletionFactor;
             }
             // Update the size of the energy bar
-            if (_energyValue > 0)
+            if (energyValue > 0)
             {
                 _sizeEnergyBar += energyIncrement;
                 DrawBoard();
             }
             else
             {
-                _energyValue = 0;
+                energyValue = 0;
                 _sizeEnergyBar = 0;
                 DrawBoard();
                 GameOver(0);

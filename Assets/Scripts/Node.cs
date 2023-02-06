@@ -50,11 +50,13 @@ namespace Racines
             {
                 return;
             }
+
             var node = other.collider.GetComponent<Node>();
             if (node != null && (_parent == null || node == _parent || _parent.Children.Contains(node) || _rootManager.selfCollide))
             {
                 return;
             }
+
             StopCoroutine(_sproutRoutine);
         }
 
@@ -93,10 +95,15 @@ namespace Racines
             while (elapsedTime < timeToGrow)
             {
                 _length = Mathf.Lerp(0f, finalLength, elapsedTime / timeToGrow);
-                elapsedTime += Time.deltaTime;
+
+                // unscaledDeltaTime allows the coroutine to run even when the game is paused
+                elapsedTime += Time.unscaledDeltaTime;
 
                 // Decrease the energy for each new Node while it grows
-                GameManager g = GameManager.Instance;
+                if (_parent != null)
+                {
+                    GameManager.Instance.UpdateEnergy(-GameManager.Instance.nodeGrowCost);
+                }
 
                 yield return new WaitForEndOfFrame();
             }
@@ -210,7 +217,9 @@ namespace Racines
             while (elapsedTime < timeToGrow)
             {
                 _width = Mathf.Lerp(oldWidth, newWidth, elapsedTime / timeToGrow);
-                elapsedTime += Time.deltaTime;
+
+                // unscaledDeltaTime allows the coroutine to run even when the game is paused
+                elapsedTime += Time.unscaledDeltaTime;
                 yield return new WaitForEndOfFrame();
             }
         }
