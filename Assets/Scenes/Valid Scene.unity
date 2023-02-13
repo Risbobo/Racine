@@ -3654,7 +3654,6 @@ MonoBehaviour:
   _sceneGround: {fileID: 513357322}
   _energyInitial: 100
   _rootManager: {fileID: 1943742119}
-  nodeGrowCost: 0.05
   scoreValue: 0
   energyValue: 0
   isGameOver: 0
@@ -4339,6 +4338,7 @@ MonoBehaviour:
   splitPullStrengthRatio: 0.6
   energyGainFactor: 1.2
   energyDepletionFactor: 0.8
+  nodeGrowCost: 0.05
   lineMaterial: {fileID: 2100000, guid: 686dac82619ca5f4ba39d81876692827, type: 2}
 --- !u!1 &1947669978
 GameObject:
