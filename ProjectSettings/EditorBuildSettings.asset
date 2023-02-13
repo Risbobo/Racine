@@ -8,15 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-<<<<<<< HEAD
   - enabled: 0
-    path: Assets/Scenes/Valid Scene.unity
-=======
-  - enabled: 1
     path: Assets/Scenes/old/Valid Scene.unity
->>>>>>> a044c52c506999c2f57ffb2ae599f6d5fac2e7d3
     guid: c81b5c35a89047d4bb8d794286e31ee5
   - enabled: 1
-    path: Assets/Scenes/Tree_growth_POC.unity
+    path: Assets/Scenes/old/Tree_growth_POC.unity
     guid: ca6aff5fee1ffd0428f394a398aa47c4
   m_configObjects: {}
