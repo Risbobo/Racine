@@ -5,12 +5,19 @@ public class Nutrient : MonoBehaviour
 {
     private float _absorbFactor;
     private float _nutrient;
-    
+    private float _nutrientSize;
+
+    public void Update()
+    {
+       
+    }
+
     public bool Initialize(Vector3 position, float nutrientValue, float nutrientSize, float nutrientAbsorbFactor)
     {
         transform.position = position;
         _nutrient = nutrientValue;
         transform.localScale = nutrientSize* Vector3.one;
+        _nutrientSize = nutrientSize;
         _absorbFactor = nutrientAbsorbFactor;
 
         return true;

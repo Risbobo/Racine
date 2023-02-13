@@ -18,31 +18,34 @@ namespace Racines
         void Start()
         {
             _gameManager = GameManager.Instance;
-            NutrientGenerator();
+            NutrientGenerator(nutrientNum);
         }
 
-        public void NutrientGenerator()
+        public void NutrientGenerator(int limitNutrientNum)
         {
-            for (int i = 0; i < nutrientNum; i++)
-            {
-                // Create new Nutrient
-                Nutrient newNutrient = Instantiate(_nutrientPrefab, parent: transform);
+            int nutrientNumCurrent = 0;
 
-                // Set nutrient value and size
+            while (nutrientNumCurrent < limitNutrientNum)
+            {
+                // Determine nutrient value, size and position
                 float nutrientValue = Random.Range(20f, 100f);
                 float nutrientSize = nutrientValue / 60f;
-                newNutrient.Initialize(_gameManager.GetRandomGroundPosition(new Vector2(nutrientSize, nutrientSize)), nutrientValue, nutrientSize, _nutrientAbsorbFactor);
-
+                Vector3 nutrientPosition = _gameManager.GetRandomGroundPosition(new Vector2(nutrientSize, nutrientSize));
+                
                 // Check for collision with rock and other nutrient
-                if (Physics2D.IsTouchingLayers(newNutrient.GetComponent<CircleCollider2D>()))
+                if (Physics2D.OverlapCircle(nutrientPosition, nutrientSize) == null)
                 {
-                    print("Collide");
-                }
+                    // Create new Nutrient
+                    Nutrient newNutrient = Instantiate(_nutrientPrefab, parent: transform);
 
-                // Add to the nutrient list
-                _gameManager.nutrientList.Add(newNutrient);
+                    newNutrient.Initialize(nutrientPosition, nutrientValue, nutrientSize, _nutrientAbsorbFactor);
+
+                    // Add to the nutrient list
+                    _gameManager.nutrientList.Add(newNutrient);
+
+                    nutrientNumCurrent += 1;
+                }
             }
         }
-
     }
 }

@@ -114,10 +114,11 @@ namespace Racines
             {
                 energyValue += energyIncrement * _rootManager.energyDepletionFactor;
             }
+
             // Update the size of the energy bar
             if (energyValue > 0)
             {
-                _sizeEnergyBar += energyIncrement;
+                _sizeEnergyBar = energyValue;
                 DrawBoard();
             }
             else
