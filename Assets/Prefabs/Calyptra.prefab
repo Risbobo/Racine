@@ -124,3 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b0804c0a824d32a76f346b94736704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HighlitedAlpha: 1
+  UnhighlitedAlpha: 0
+  AnimationTime: 0.1
+  _arrow: {fileID: 0}

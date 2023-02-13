@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Racines
 {
@@ -13,6 +14,11 @@ namespace Racines
     [RequireComponent(typeof(SpriteRenderer))]
     public class Calyptra : MonoBehaviour
     {
+
+        [SerializeField] private float HighlitedAlpha = 1f;
+        [SerializeField] private float UnhighlitedAlpha = 0f;
+        [SerializeField] private float AnimationTime = 0.1f;
+
         private const float HoverScaleFactor = 1.5f;
 
         private Vector3 _normalScaleVector;
@@ -25,14 +31,26 @@ namespace Racines
         public Arrow _arrow;
         private bool _mouseDown;
 
+        private bool _Interactable = false;
+
         protected void Start()
         {
             _arrow = Arrow.Instance;
             _normalScaleVector = transform.localScale;
             _hoverScaleVector = HoverScaleFactor * transform.localScale;
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            SetSpriteAlpha(0f, 0f);
-            GameManager.Instance.calyptraList.Add(this);
+            SetSpriteAlpha(UnhighlitedAlpha, 0f);
+            
+
+            if (transform.tag == "Root")
+            {
+                _Interactable = true;
+                GameManager.Instance.calyptraList.Add(this);
+            } else
+            {
+                GameManager.Instance.TreeCalyptraList.Add(this);
+            }
+
         }
 
         private void SetSpriteAlpha(float alpha, float animationTime)
@@ -66,15 +84,16 @@ namespace Racines
 
         private void OnMouseEnter()
         {
-            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
+            if (_Interactable && !GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                 HighlightCalyptra();
             }
         }
 
+
         private void OnMouseExit()
         {
-            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
+            if (_Interactable && !GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                 DeHighlightCalyptra();
             }
@@ -82,7 +101,7 @@ namespace Racines
 
         private void OnMouseDown()
         {
-            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
+            if (_Interactable && !GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
             {
                  _mouseDown = true;
                 // "Hack" so that if we just click on the Calyptra, it sends the position
@@ -92,7 +111,7 @@ namespace Racines
 
         private void OnMouseDrag()
         {
-            if (!GameManager.Instance.isGameOver && _arrow.IsArrowActive)
+            if (_Interactable && !GameManager.Instance.isGameOver && _arrow.IsArrowActive)
             {
                 _arrow.MutateArrow();
             }
@@ -100,30 +119,44 @@ namespace Racines
 
         private void OnMouseUp()
         {
-            if (!GameManager.Instance.isGameOver && _arrow.IsArrowActive)
+            if (_Interactable && !GameManager.Instance.isGameOver && _arrow.IsArrowActive)
             {
                 _mouseDown = false;
                 SignalGrowth(new GrowthParams { growthDirection = _arrow.Direction });
+
+                // Signat growth to a random tree calyptra (up direction)
+
+                int selectCal = Random.Range(0, GameManager.Instance.TreeCalyptraList.Count);
+
+                GameManager.Instance.TreeCalyptraList[selectCal].SignalGrowth(new GrowthParams { growthDirection = Vector3.up + Random.Range(-.1f,.1f)*Vector3.left });
+
                 _arrow.HideArrow();
             }
         }
 
         public void HighlightCalyptra()
         {
-            _arrow.HideArrow();
-            SetSpriteAlpha(1f, 0.1f);
-            transform.localScale = _hoverScaleVector;
+            if (_Interactable)
+            {
+                _arrow.HideArrow();
+                SetSpriteAlpha(HighlitedAlpha, AnimationTime);
+                transform.localScale = _hoverScaleVector;
+            }
         }
 
         public void DeHighlightCalyptra()
         {
-            if (_mouseDown)
-            {
-                _arrow.ShowArrow(transform.position);
-            }
 
-            SetSpriteAlpha(0f, 0.1f);
-            transform.localScale = _normalScaleVector;
+            if (_Interactable)
+            {
+                if (_mouseDown)
+                {
+                    _arrow.ShowArrow(transform.position);
+                }
+
+                SetSpriteAlpha(UnhighlitedAlpha, AnimationTime);
+                transform.localScale = _normalScaleVector;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,12 +34,16 @@ namespace Racines
         private float _probabilityToSpawn = 1f;
         private float _pullStrength;
 
+        private string _parentTag;
 
         protected void Start()
         {
             _width = _rootManager.initialWidth;
             _sproutRoutine = StartCoroutine(Sprout());
             _gameManager = GameManager.Instance;
+            _parentTag = transform.GetComponentInParent<Transform>().tag;
+
+            transform.tag = _parentTag;
         }
 
         protected void OnCollisionEnter2D(Collision2D other)
@@ -100,7 +105,7 @@ namespace Racines
                 // Decrease the energy for each new Node while it grows
                 if (_parent != null)
                 {
-                    GameManager.Instance.UpdateEnergy(-_rootManager.nodeGrowCost);
+                    GameManager.Instance.UpdateEnergy(-_rootManager.nodeGrowCost * _rootManager.energyDepletionFactor);
                 }
 
                 yield return new WaitForEndOfFrame();
@@ -126,6 +131,7 @@ namespace Racines
         private void CreateCalyptra()
         {
             _calyptra = Instantiate(_calyptraPrefab, GetTipPosition() + Vector3.back * 0.2f, Quaternion.identity);
+            _calyptra.GetComponent<Transform>().tag = _parentTag;
             _calyptra.SignalGrowth += OnCalyptraGrowthSignal;
         }
 
@@ -157,6 +163,7 @@ namespace Racines
         {
             Node child = Instantiate(_shapePrefab, GetComponentInParent<Transform>()).AddComponent<Node>();
             child.Initialize(this, angle, isSplit);
+            child.GetComponent<Transform>().tag = _parentTag;
             Children.Add(child);
 
             // Increase the score for each new Node

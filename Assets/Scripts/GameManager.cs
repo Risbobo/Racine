@@ -19,8 +19,6 @@ namespace Racines
         [SerializeField] private SpriteRenderer _sceneGround;
         [SerializeField] private float _energyInitial = 100;
 
-        [SerializeField] private RootManager _rootManager;
-
         public float scoreValue;
         public float energyValue;
 
@@ -29,6 +27,7 @@ namespace Racines
 
         public bool isGameOver = false;
 
+        public List<Calyptra> TreeCalyptraList;
         public List<Calyptra> calyptraList;
         public List<Nutrient> nutrientList;
 
@@ -107,14 +106,8 @@ namespace Racines
         public void UpdateEnergy(float energyIncrement)
         {
             // Calculate the new energy levels
-            if (energyIncrement > 0)
-            {
-                energyValue += energyIncrement * _rootManager.energyGainFactor;
-            }
-            else
-            {
-                energyValue += energyIncrement * _rootManager.energyDepletionFactor;
-            }
+
+            energyValue += energyIncrement;
 
             // Update the size of the energy bar
             if (energyValue > 0)
