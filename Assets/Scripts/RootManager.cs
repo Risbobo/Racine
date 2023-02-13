@@ -34,6 +34,9 @@ namespace Racines
         public int RootCurveSegments;
         public float splitPullStrengthRatio;
 
+        public float energyGainFactor;
+        public float energyDepletionFactor;
+
         public Material lineMaterial;
     }
 }

@@ -18,10 +18,10 @@ namespace Racines
         void Start()
         {
             _gameManager = GameManager.Instance;
-            NutrientGenerators();
+            NutrientGenerator();
         }
 
-        public void NutrientGenerators()
+        public void NutrientGenerator()
         {
             for (int i = 0; i < nutrientNum; i++)
             {

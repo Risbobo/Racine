@@ -15,8 +15,6 @@ namespace Racines
         public Node Parent => _parent;
         public RootManager RootManager => _rootManager;
 
-        
-
         [SerializeField] private int _depth;
         [SerializeField] private int _maxDepth = 5;
         [SerializeField] private RootManager _rootManager;
