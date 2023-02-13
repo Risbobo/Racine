@@ -100,7 +100,7 @@ namespace Racines
                 // Decrease the energy for each new Node while it grows
                 if (_parent != null)
                 {
-                    GameManager.Instance.UpdateEnergy(-GameManager.Instance.nodeGrowCost);
+                    GameManager.Instance.UpdateEnergy(-_rootManager.nodeGrowCost);
                 }
 
                 yield return new WaitForEndOfFrame();

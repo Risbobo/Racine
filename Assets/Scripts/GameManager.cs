@@ -21,8 +21,6 @@ namespace Racines
 
         [SerializeField] private RootManager _rootManager;
 
-        public float nodeGrowCost = 0.05f;
-
         public float scoreValue;
         public float energyValue;
 

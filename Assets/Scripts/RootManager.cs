@@ -34,8 +34,9 @@ namespace Racines
         public int RootCurveSegments;
         public float splitPullStrengthRatio;
 
-        public float energyGainFactor;
-        public float energyDepletionFactor;
+        public float energyGainFactor = 1.2f;
+        public float energyDepletionFactor = 0.8f;
+        public float nodeGrowCost = 0.05f;
 
         public Material lineMaterial;
     }
