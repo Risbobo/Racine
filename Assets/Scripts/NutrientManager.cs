@@ -1,5 +1,4 @@
 ﻿using Random = UnityEngine.Random;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Racines
