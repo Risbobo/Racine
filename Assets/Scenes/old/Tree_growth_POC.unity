@@ -904,7 +904,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436522137}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -4.74, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   energyGainFactor: 1.2
   energyDepletionFactor: 0
   nodeGrowCost: 0.05
-  lineMaterial: {fileID: 2100000, guid: 686dac82619ca5f4ba39d81876692827, type: 2}
+  lineMaterial: {fileID: 2100000, guid: fad9c915e569bb847b83f25c5882dc5b, type: 2}
 --- !u!4 &835208569
 Transform:
   m_ObjectHideFlags: 0
@@ -2893,6 +2893,7 @@ MonoBehaviour:
   scoreValue: 0
   energyValue: 0
   isGameOver: 0
+  TreeCalyptraList: []
   calyptraList: []
   nutrientList: []
 --- !u!1001 &1511970928
