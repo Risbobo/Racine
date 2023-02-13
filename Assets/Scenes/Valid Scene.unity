@@ -1886,6 +1886,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Node
       objectReference: {fileID: 0}
+    - target: {fileID: 7455157183041288032, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
+      propertyPath: m_TagString
+      value: Root
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 668c32a642ad07947b8a0b257665b79b, type: 3}
@@ -1934,7 +1938,7 @@ GameObject:
   - component: {fileID: 837376443}
   m_Layer: 0
   m_Name: Roots
-  m_TagString: Untagged
+  m_TagString: Root
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3653,10 +3657,10 @@ MonoBehaviour:
   _gameOverPanel: {fileID: 1693742760}
   _sceneGround: {fileID: 513357322}
   _energyInitial: 100
-  _rootManager: {fileID: 1943742119}
   scoreValue: 0
   energyValue: 0
   isGameOver: 0
+  TreeCalyptraList: []
   calyptraList: []
   nutrientList: []
 --- !u!1001 &1511970928
