@@ -32,8 +32,8 @@ namespace Racines
                 float nutrientSize = nutrientValue / 60f;
                 Vector3 nutrientPosition = _gameManager.GetRandomGroundPosition(new Vector2(nutrientSize, nutrientSize));
                 
-                // Check for collision with rock and other nutrient
-                if (Physics2D.OverlapCircle(nutrientPosition, nutrientSize) == null)
+                // Check for collision with other collider objects (rocks, other nutrient, etc)
+                if (Physics2D.OverlapCircle(nutrientPosition, 2*nutrientSize) == null)
                 {
                     // Create new Nutrient
                     Nutrient newNutrient = Instantiate(_nutrientPrefab, parent: transform);

@@ -134,6 +134,7 @@ namespace Racines
             _calyptra.SignalGrowth -= OnCalyptraGrowthSignal;
             _gameManager.calyptraList.Remove(_calyptra);
             Destroy(_calyptra.gameObject);
+            _gameManager.CheckCalyptraExists();
         }
 
         private void CreateChildren()
