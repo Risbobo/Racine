@@ -124,7 +124,13 @@ namespace Racines
             else
             {
                 CreateCalyptra();
+                if (transform.tag == "Tree")
+                {
+                    TreeManager _treemanager = GameObject.FindGameObjectWithTag("TreeManager").GetComponent<TreeManager>();
+                    Instantiate(_treemanager.fleur, GetTipPosition() + Vector3.back * 0.2f, Quaternion.identity, transform);
+                }
             }
+            
 
         }
 
