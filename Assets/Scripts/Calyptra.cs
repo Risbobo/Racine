@@ -72,6 +72,14 @@ namespace Racines
             }
         }
 
+        private void OnMouseOver()
+        {
+            if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)
+            {
+                HighlightCalyptra();
+            }
+        }
+
         private void OnMouseExit()
         {
             if (!GameManager.Instance.isGameOver && !_arrow.IsArrowActive)

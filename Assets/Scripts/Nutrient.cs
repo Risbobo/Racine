@@ -27,7 +27,7 @@ public class Nutrient : MonoBehaviour
 
         var rate = node.Width;
         var energy = IsAbsorbed(rate);
-        GameManager.Instance.UpdateEnergy(energy);
+        GameManager.Instance.UpdateEnergy(energy * node.RootManager.energyGainFactor);
     }
 
     private float IsAbsorbed(float width)
