@@ -27,6 +27,7 @@ namespace Racines
 
         public bool isGameOver = false;
 
+        public List<Calyptra> TreeCalyptraList;
         public List<Calyptra> calyptraList;
         public List<Nutrient> nutrientList;
 
