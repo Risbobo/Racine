@@ -76,7 +76,8 @@ namespace Racines
             {
                 GameOver(3);
             }
-            else if (isGameOver)
+           
+            if (isGameOver)
             {
                 //If R is pressed: restart the game
                 if (Input.GetKeyDown(KeyCode.R))
@@ -157,8 +158,9 @@ namespace Racines
         // check if there are still active ends in the Game. If not: Game Over
         public void CheckCalyptraExists()
         {
+
             //If calypra list is empty
-            if (!calyptraList.Any())
+            if (!calyptraList.Any() && Time.time > 0)
             {
                 GameOver(1);
             }
